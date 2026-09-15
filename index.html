@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Able Thomas — Computer Science student at VIT Vellore, software developer building ResQ and MiniPlay.">
+  <meta name="theme-color" content="#071426">
+  <title>Able Thomas — Developer Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="progress" id="progress"></div>
+
+  <header class="site-header" id="top">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Able Thomas home">
+        <span class="brand-mark">AT</span>
+        <span>Able Thomas</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">
+          <span class="theme-icon">☾</span><span class="theme-label">Dark</span>
+        </button>
+        <a class="nav-cta" href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer">Connect ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <div class="hero-copy reveal">
+        <div class="eyebrow"><span class="status-dot"></span> CSE Core · VIT Vellore</div>
+        <h1>Building software with <span>purpose.</span><br>Designing for what comes next.</h1>
+        <p class="hero-lede">Computer science student and software developer exploring full-stack systems, intelligent routing, AI/ML, cybersecurity, and product-focused engineering.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projects">Explore projects <span>↘</span></a>
+          <a class="button button-ghost" href="https://github.com/able-t22" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
+        </div>
+        <div class="hero-meta"><span>India</span><span class="dot-separator">•</span><span>Open to learning & collaboration</span></div>
+      </div>
+      <div class="hero-art reveal" data-delay="150">
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+        <div class="system-card">
+          <div class="system-top"><span>CURRENT FOCUS</span><span>01 / 04</span></div>
+          <div class="system-title">Engineering at the intersection of code, systems and real-world impact.</div>
+          <div class="system-grid">
+            <div><strong>ResQ</strong><span>Emergency routing</span></div>
+            <div><strong>MiniPlay</strong><span>Music streaming</span></div>
+            <div><strong>VIT</strong><span>CSE Core</span></div>
+            <div><strong>9.75</strong><span>Current CGPA</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Areas of interest">
+      <div class="ticker-track">
+        <span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>CYBERSECURITY</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i>
+        <span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>CYBERSECURITY</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i>
+      </div>
+    </section>
+
+    <section id="about" class="section shell two-col">
+      <div class="section-label reveal">01 — About</div>
+      <div class="section-content reveal" data-delay="100">
+        <p class="display">A dedicated sophomore B.Tech student at <span>Vellore Institute of Technology (VIT)</span>, pursuing Computer Science & Engineering.</p>
+        <div class="about-grid">
+          <div class="about-copy">
+            <p>Focused on mastering programming concepts and exploring languages such as C, C++, Java, and Python. I enjoy turning technical knowledge into working systems, especially where software meets real-world constraints.</p>
+            <p>My work combines analytical thinking, problem solving, teamwork, communication, leadership, and a strong interest in building practical products.</p>
+          </div>
+          <div class="mini-stats">
+            <div><strong>2025–29</strong><span>VIT · B.Tech CSE</span></div>
+            <div><strong>9.75</strong><span>Current CGPA</span></div>
+            <div><strong>2</strong><span>Featured projects</span></div>
+            <div><strong>#1</strong><span>CSE Cybersecurity rank holder</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section shell">
+      <div class="section-heading reveal">
+        <div class="section-label">02 — Selected work</div>
+        <h2>Two projects. Two different problems. One goal: build things that matter.</h2>
+      </div>
+
+      <article class="project-card project-resq reveal">
+        <div class="project-visual">
+          <img src="assets/resq/01-emergency-sos.png" alt="ResQ emergency SOS message and location screenshot">
+          <div class="visual-tag">01 / 02</div>
+        </div>
+        <div class="project-body">
+          <div class="project-number">01</div>
+          <div>
+            <div class="project-kicker">Flutter · Python · Flask · SUMO</div>
+            <h3>ResQ — Smart Ambulance & SafeRoute Routing System</h3>
+            <p>A real-time emergency mobility platform combining normal navigation, safer travel, ambulance routing and an operations dashboard. ResQ is designed around the moments where route quality, response time and situational awareness matter most.</p>
+            <div class="tag-row"><span>Flutter</span><span>Python / Flask</span><span>SUMO</span><span>Dijkstra / A*</span><span>YOLOv8</span><span>Traffic Management</span></div>
+            <div class="project-actions"><a href="#resq-details">View case study ↘</a><a href="https://github.com/able-t22" target="_blank" rel="noreferrer">GitHub ↗</a></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card project-mini reveal">
+        <div class="project-visual">
+          <img src="assets/miniplay/02-music-library.png" alt="MiniPlay music library interface showing songs and player controls">
+          <div class="visual-tag">02 / 02</div>
+        </div>
+        <div class="project-body">
+          <div class="project-number">02</div>
+          <div>
+            <div class="project-kicker">PHP · MySQL · XAMPP · Apache</div>
+            <h3>MiniPlay — Full-Stack Music Streaming Web Application</h3>
+            <p>A database-driven music streaming application with authentication, music discovery, albums, artists, genres, liked songs, search and playlists. The project focuses on building the complete loop from relational data to a usable streaming interface.</p>
+            <div class="tag-row"><span>PHP</span><span>MySQL</span><span>XAMPP</span><span>Apache</span><span>phpMyAdmin</span><span>DBMS</span></div>
+            <div class="project-actions"><a href="#miniplay-details">View case study ↘</a><a href="https://github.com/able-t22" target="_blank" rel="noreferrer">GitHub ↗</a></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section shell detail-section" id="resq-details">
+      <div class="section-label reveal">03 — ResQ deep dive</div>
+      <div class="detail-layout">
+        <div class="detail-copy reveal" data-delay="100">
+          <span class="detail-index">RESQ / 01</span>
+          <h2>Emergency routing, safer travel and traffic intelligence.</h2>
+          <p>ResQ brings together three routing experiences — Normal, SafeRoute and Emergency Services — backed by a web control layer for emergency operations and traffic-aware simulation.</p>
+          <div class="feature-list">
+            <div><span>01</span><p><b>Emergency Services</b><br>Nearest-ambulance assignment, pickup routing, hospital routing and live dispatch state.</p></div>
+            <div><span>02</span><p><b>SafeRoute</b><br>Women-focused routing using road width, activity, streetlights, reports and time-of-day context.</p></div>
+            <div><span>03</span><p><b>Operations dashboard</b><br>CCTV upload workflow, YOLOv8 detection, signal-control simulation and route monitoring.</p></div>
+          </div>
+        </div>
+        <div class="media-stack reveal" data-delay="200">
+          <figure class="media-card"><img src="assets/resq/02-dispatch-dashboard.png" alt="ResQ emergency dispatch dashboard over a Mumbai map"><figcaption>Real-time hospital and ambulance dispatch dashboard with traffic context.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/03-ambulance-routing.png" alt="ResQ dashboard showing an ambulance carrying a patient to a hospital"><figcaption>Live ambulance state showing pickup-to-hospital routing and patient onboarding.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/04-map-routing.png" alt="ResQ mobile map interface with emergency locations"><figcaption>Mobile routing view designed for route discovery and emergency-aware navigation.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/05-splash-screen.png" alt="ResQ splash screen with the application logo"><figcaption>ResQ brand and launch screen introducing the emergency mobility platform.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/06-user-login.png" alt="ResQ user login screen with Normal and Safe Route modes"><figcaption>Unified user login with a choice between Normal Route and Safe Route experiences.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/07-emergency-services.png" alt="ResQ emergency services registration screen"><figcaption>Verified emergency-services onboarding with hospital ID and driver identity workflow.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/08-resq-login.png" alt="ResQ account selection screen showing User Login and Emergency Services"><figcaption>Role-based entry point separating commuter and emergency-service journeys.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/09-profile.png" alt="ResQ profile page with safety and travel preferences"><figcaption>Profile area combining account switching, safety tools, reporting and travel preferences.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/10-sos-alert.png" alt="ResQ sudden movement detected safety alert"><figcaption>Intelligent SOS flow triggered by abnormal movement, giving the user a quick safe-or-danger response.</figcaption></figure>
+          <figure class="media-card"><img src="assets/resq/01-emergency-sos.png" alt="Emergency SOS message with shared map location"><figcaption>SOS communication flow sharing the user's location so trusted contacts can respond quickly.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell detail-section" id="miniplay-details">
+      <div class="section-label reveal">04 — MiniPlay deep dive</div>
+      <div class="detail-layout reverse">
+        <div class="detail-copy reveal" data-delay="100">
+          <span class="detail-index">MINIPLAY / 02</span>
+          <h2>A relational database turned into a complete music experience.</h2>
+          <p>MiniPlay was built with PHP, MySQL and the XAMPP stack, connecting a structured relational model to the user-facing experience. The interface covers discovery, organization and playback without relying on a third-party streaming backend.</p>
+          <div class="feature-list">
+            <div><span>01</span><p><b>Authentication</b><br>Login and sign-up flow for individual users.</p></div>
+            <div><span>02</span><p><b>Discovery</b><br>Browse songs, albums, artists and genres through a database-backed library.</p></div>
+            <div><span>03</span><p><b>Personalization</b><br>Liked songs, search and playlists turn the library into a user-specific experience.</p></div>
+          </div>
+        </div>
+        <div class="media-stack reveal" data-delay="200">
+          <figure class="media-card"><img src="assets/miniplay/01-authentication.png" alt="MiniPlay user authentication screen"><figcaption>Authentication interface establishing the entry point for individual music accounts.</figcaption></figure>
+          <figure class="media-card"><img src="assets/miniplay/02-music-library.png" alt="MiniPlay all songs library with playback controls"><figcaption>Core music library with song metadata, actions and persistent playback controls.</figcaption></figure>
+          <figure class="media-card"><img src="assets/miniplay/03-genres.png" alt="MiniPlay browse genres screen"><figcaption>Genre-based discovery designed for fast exploration across music categories.</figcaption></figure>
+          <figure class="media-card"><img src="assets/miniplay/04-albums.png" alt="MiniPlay browse albums screen with album artwork"><figcaption>Album browsing interface with artwork, artist metadata and release context.</figcaption></figure>
+          <figure class="media-card"><img src="assets/miniplay/05-liked-search.png" alt="MiniPlay liked songs and search interface"><figcaption>Personalized liked-song collection paired with quick search and discovery.</figcaption></figure>
+          <figure class="media-card"><img src="assets/miniplay/06-playlist.png" alt="MiniPlay playlist view with selected music"><figcaption>Playlist workflow showing saved tracks alongside the main music library.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section shell">
+      <div class="section-heading reveal">
+        <div class="section-label">05 — Skills & strengths</div>
+        <h2>Technical depth, backed by communication and problem solving.</h2>
+      </div>
+      <div class="skills-board">
+        <div class="skill-column reveal"><span class="skill-index">01 / LANGUAGES</span><h3>Programming</h3><div class="skill-stack"><span>C</span><span>C++</span><span>Java</span><span>Python</span><span>SQL</span></div></div>
+        <div class="skill-column reveal" data-delay="80"><span class="skill-index">02 / DEVELOPMENT</span><h3>Web & application</h3><div class="skill-stack"><span>Flutter</span><span>Front-End Development</span><span>Web Development</span><span>Flask</span><span>PHP</span><span>Node.js</span></div></div>
+        <div class="skill-column reveal" data-delay="120"><span class="skill-index">03 / DATA & TOOLS</span><h3>Systems & tooling</h3><div class="skill-stack"><span>MySQL</span><span>DBMS</span><span>Apache</span><span>XAMPP</span><span>phpMyAdmin</span><span>Vercel</span><span>Streamlit</span></div></div>
+        <div class="skill-column reveal" data-delay="160"><span class="skill-index">04 / CORE STRENGTHS</span><h3>How I work</h3><div class="skill-stack"><span>Analytical Skills</span><span>Problem Solving</span><span>Communication</span><span>Teamwork</span><span>Leadership</span><span>Public Speaking</span><span>OOP</span></div></div>
+      </div>
+    </section>
+
+    <section id="education" class="section shell">
+      <div class="section-label reveal">06 — Education</div>
+      <div class="timeline reveal" data-delay="100">
+        <article class="edu-item">
+          <div class="edu-time">JUL 2025 — JUL 2029</div>
+          <div class="edu-main"><h3>Vellore Institute of Technology (VIT)</h3><p>Bachelor of Technology · Computer Science & Engineering · Vellore</p><div class="edu-meta"><span>CGPA 9.75</span><span>CSE Core</span><span>CSE Cybersecurity 1st Rank Holder</span></div></div>
+          <div class="edu-side">01</div>
+        </article>
+        <article class="edu-item">
+          <div class="edu-time">10th / ICSE</div>
+          <div class="edu-main"><h3>Christ Nagar School, Trivandrum</h3><p>School education</p><div class="edu-meta"><span>98.4%</span></div></div>
+          <div class="edu-side">02</div>
+        </article>
+        <article class="edu-item">
+          <div class="edu-time">ISC</div>
+          <div class="edu-main"><h3>KE School, Mannanam</h3><p>School education</p><div class="edu-meta"><span>96.75%</span></div></div>
+          <div class="edu-side">03</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell values-section">
+      <div class="section-label reveal">07 — Beyond the classroom</div>
+      <h2 class="values-title reveal" data-delay="100">Things I value while building.</h2>
+      <div class="achievement-grid">
+        <article class="achievement-card reveal"><span>01</span><h3>Technical curiosity</h3><p>Learning by building, experimenting and turning concepts into working systems.</p></article>
+        <article class="achievement-card reveal" data-delay="80"><span>02</span><h3>Project leadership</h3><p>Collaborative project work across product design, development and technical demonstrations.</p></article>
+        <article class="achievement-card reveal" data-delay="160"><span>03</span><h3>Communication</h3><p>Public speaking, presentations, teamwork and clear technical communication.</p></article>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <div class="shell contact-inner">
+        <div class="reveal"><div class="section-label">08 — Contact</div><h2>Let’s build something useful.</h2><p class="contact-sub">Open to learning, technical conversations, project collaboration and opportunities to build.</p></div>
+        <div class="contact-links reveal" data-delay="100">
+          <a href="https://github.com/able-t22" target="_blank" rel="noreferrer"><span>GitHub</span><span>↗</span></a>
+          <a href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer"><span>LinkedIn</span><span>↗</span></a>
+          <a href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer"><span>Start a conversation</span><span>↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer shell"><span>© 2026 Able Thomas</span><a href="#top">Back to top ↑</a></footer>
+  <button id="backToTop" class="back-top" type="button" aria-label="Back to top">↑</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
