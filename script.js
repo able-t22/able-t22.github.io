@@ -1,29 +1,34 @@
-const progress=document.getElementById('progress');
-const cursor=document.querySelector('.cursor-glow');
 const menuToggle=document.getElementById('menuToggle');
 const navLinks=document.getElementById('navLinks');
 const themeToggle=document.getElementById('themeToggle');
 const backToTop=document.getElementById('backToTop');
+const scrollBeacon=document.getElementById('scrollBeacon');
 const reveals=document.querySelectorAll('.reveal');
 const signalField=document.querySelector('.signal-field');
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const coarsePointer=window.matchMedia('(pointer: coarse)').matches;
 
-const updateScrollUI=()=>{
-  const doc=document.documentElement;
-  const max=doc.scrollHeight-window.innerHeight;
-  const ratio=max>0?window.scrollY/max:0;
-  progress.style.width=`${Math.min(100,Math.max(0,ratio*100))}%`;
-  backToTop?.classList.toggle('show',window.scrollY>500);
+let lastScrollY=window.scrollY;
+let scrollTicking=false;
+
+const updateScrollState=()=>{
+  const currentY=window.scrollY;
+  const direction=currentY>lastScrollY?'down':currentY<lastScrollY?'up':'idle';
+  document.body.dataset.scrollDirection=direction;
+  if(scrollBeacon){
+    scrollBeacon.classList.toggle('is-scrolling',direction!=='idle');
+    scrollBeacon.classList.toggle('is-up',direction==='up');
+  }
+  backToTop?.classList.toggle('show',currentY>500);
+  lastScrollY=currentY;
+  scrollTicking=false;
 };
 
-window.addEventListener('scroll',updateScrollUI,{passive:true});
-updateScrollUI();
-
-if(cursor&&!window.matchMedia('(pointer: coarse)').matches){
-  window.addEventListener('pointermove',e=>{
-    cursor.style.left=`${e.clientX}px`;
-    cursor.style.top=`${e.clientY}px`;
-  });
-}
+window.addEventListener('scroll',()=>{
+  if(scrollTicking)return;
+  scrollTicking=true;
+  requestAnimationFrame(updateScrollState);
+},{passive:true});
 
 menuToggle?.addEventListener('click',()=>{
   const open=navLinks.classList.toggle('open');
@@ -43,15 +48,13 @@ const applyTheme=theme=>{
   const icon=themeToggle?.querySelector('.theme-icon');
   const label=themeToggle?.querySelector('.theme-label');
 
-  if(icon) icon.textContent=light?'☀':'☾';
-  if(label) label.textContent=light?'Light':'Dark';
+  if(icon)icon.textContent=light?'☀':'☾';
+  if(label)label.textContent=light?'Light':'Dark';
 
-  if(themeToggle){
-    themeToggle.setAttribute(
-      'aria-label',
-      light?'Switch to dark theme':'Switch to light theme'
-    );
-  }
+  themeToggle?.setAttribute(
+    'aria-label',
+    light?'Switch to dark theme':'Switch to light theme'
+  );
 
   localStorage.setItem('able-theme',theme);
 };
@@ -77,56 +80,81 @@ backToTop?.addEventListener('click',()=>{
 document.querySelectorAll('img').forEach(img=>{
   img.addEventListener('error',()=>{
     const card=img.closest('.media-card,.project-visual');
-    if(card) card.classList.add('image-missing');
+    if(card)card.classList.add('image-missing');
     img.style.display='none';
-  });
+  },{once:true});
 });
 
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
+if(!reduceMotion){
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting)return;
       entry.target.classList.add('is-visible');
       observer.unobserve(entry.target);
-    }
+    });
+  },{
+    threshold:.08,
+    rootMargin:'0px 0px -8% 0px'
   });
-},{threshold:.12});
 
-reveals.forEach(el=>observer.observe(el));
+  reveals.forEach(el=>observer.observe(el));
+}else{
+  reveals.forEach(el=>el.classList.add('is-visible'));
+}
 
-if(
-  signalField &&
-  !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-  !window.matchMedia('(pointer: coarse)').matches
-){
-  const nodes=signalField.querySelectorAll('.signal-node');
+const ticker=document.querySelector('.ticker');
+const tickerTrack=document.querySelector('.ticker-track');
+
+if(ticker&&tickerTrack&&!reduceMotion){
+  const tickerObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      tickerTrack.style.animationPlayState=
+        entry.isIntersecting?'running':'paused';
+    });
+  },{
+    threshold:0
+  });
+
+  tickerObserver.observe(ticker);
+}
+
+if(signalField&&!reduceMotion&&!coarsePointer){
+  let raf=0;
+  let targetX=0;
+  let targetY=0;
+  let currentX=0;
+  let currentY=0;
+
+  const animateSignal=()=>{
+    currentX+=(targetX-currentX)*.08;
+    currentY+=(targetY-currentY)*.08;
+
+    signalField.style.transform=
+      `translate3d(${currentX}px,${currentY}px,0)`;
+
+    raf=requestAnimationFrame(animateSignal);
+  };
+
+  raf=requestAnimationFrame(animateSignal);
 
   signalField.addEventListener('pointermove',event=>{
     const rect=signalField.getBoundingClientRect();
 
-    const x=(event.clientX-rect.left)/rect.width-.5;
-    const y=(event.clientY-rect.top)/rect.height-.5;
+    targetX=
+      ((event.clientX-(rect.left+rect.width/2))/rect.width)*10;
 
-    const mx=x*18;
-    const my=y*18;
-
-    signalField.style.transform=
-      `perspective(900px) rotateX(${-my*.28}deg) rotateY(${mx*.28}deg)`;
-
-    nodes.forEach((node,index)=>{
-      const depth=(index%3+1)*2.2;
-
-      node.style.marginLeft=`${x*depth}px`;
-      node.style.marginTop=`${y*depth}px`;
-    });
-  });
+    targetY=
+      ((event.clientY-(rect.top+rect.height/2))/rect.height)*10;
+  },{passive:true});
 
   signalField.addEventListener('pointerleave',()=>{
-    signalField.style.transform=
-      'perspective(900px) rotateX(0deg) rotateY(0deg)';
+    targetX=0;
+    targetY=0;
+  },{passive:true});
 
-    nodes.forEach(node=>{
-      node.style.marginLeft='0px';
-      node.style.marginTop='0px';
-    });
-  });
+  window.addEventListener(
+    'pagehide',
+    ()=>cancelAnimationFrame(raf),
+    {once:true}
+  );
 }
