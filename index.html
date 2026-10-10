@@ -4,17 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Able Thomas — Computer Science student at VIT Vellore, software developer building ResQ and MiniPlay.">
-  <meta name="theme-color" content="#f4f7fb">
+  <meta name="theme-color" content="#071426">
   <title>Able Thomas — Developer Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="light">
+<body>
   <div class="ambient ambient-one" aria-hidden="true"></div>
   <div class="ambient ambient-two" aria-hidden="true"></div>
   <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header" id="top">
     <nav class="nav shell" aria-label="Primary navigation">
@@ -22,40 +25,59 @@
         <span class="brand-mark">AT</span>
         <span>Able Thomas</span>
       </a>
-      <span class="scroll-beacon" id="scrollBeacon" aria-hidden="true"><i></i><i></i><i></i></span>
-      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-controls="navLinks" aria-label="Open navigation" aria-expanded="false">☰</button>
       <div class="nav-links" id="navLinks">
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
         <a href="#education">Education</a>
         <a href="#contact">Contact</a>
-        <a href="assets/Able_Thomas_Resume.pdf" target="_blank" rel="noreferrer">Resume</a>
       </div>
       <div class="header-actions">
-        <a class="nav-cta" href="assets/Able_Thomas_Resume.pdf" target="_blank" rel="noreferrer">Resume ↗</a>
+        <button class="motion-toggle" id="motionToggle" type="button" aria-label="Pause animations" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><span class="motion-label">Motion</span></button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">
+          <span class="theme-icon">☾</span><span class="theme-label">Dark</span>
+        </button>
+        <a class="nav-cta" href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer">Connect ↗</a>
       </div>
     </nav>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <section class="hero shell">
       <div class="hero-copy reveal">
         <div class="eyebrow"><span class="status-dot"></span> CSE Core · VIT Vellore</div>
-        <div class="thought-box">
-          <div class="thought-box-top">
-            <span>A LITTLE ABOUT ME</span>
-            <span>THINK · BUILD · GROW</span>
-          </div>
-          <h1>Learning deeply.<br><span>Building deliberately.</span></h1>
-          <p>A dedicated sophomore B.Tech student at Vellore Institute of Technology (VIT), specializing in Computer Science. I’m building a strong academic foundation while continuously sharpening my problem-solving, leadership, and communication skills.</p>
-          <p>My current focus is mastering programming fundamentals in C, C++, Java, and Python while exploring software engineering, intelligent systems, and cybersecurity. I enjoy turning ideas into practical projects and learning something new with every build.</p>
-        </div>
+        <h1>Thoughtful code.<br><span>Real-world</span><br>impact.</h1>
+        <p class="hero-lede">Computer science student and software developer exploring full-stack systems, intelligent routing, AI/ML, cybersecurity, and product-focused engineering.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="#projects">Explore projects <span>↘</span></a>
           <a class="button button-ghost" href="https://github.com/able-t22" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
         </div>
         <div class="hero-meta"><span>India</span><span class="dot-separator">•</span><span>Open to learning & collaboration</span></div>
+      </div>
+      <div class="hero-art reveal" data-delay="150">
+        <div class="orbit orbit-outer" aria-hidden="true"></div>
+        <div class="orbit orbit-inner" aria-hidden="true"></div>
+        <span class="art-coordinate" aria-hidden="true">THINK / BUILD / ITERATE</span>
+        <div class="system-card">
+          <div class="system-top"><span><i class="card-status" aria-hidden="true"></i> CURRENT FOCUS</span><span>AT / 2026</span></div>
+          <div class="system-title">From an idea<br>to something<br><em>that works.</em></div>
+          <div class="code-note" aria-hidden="true"><span>const</span> approach = [<br>&nbsp;&nbsp;'stay curious',<br>&nbsp;&nbsp;'solve real problems'<br>];</div>
+          <div class="system-grid">
+            <div><strong>ResQ</strong><span>Emergency routing</span></div>
+            <div><strong>MiniPlay</strong><span>Music streaming</span></div>
+            <div><strong>VIT</strong><span>CSE Core</span></div>
+            <div><strong>9.75</strong><span>Current CGPA</span></div>
+          </div>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><span aria-hidden="true">↓</span></a>
+    </section>
+
+    <section class="ticker" aria-label="Areas of interest">
+      <div class="ticker-track">
+        <div class="ticker-group"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>CYBERSECURITY</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
+        <div class="ticker-group" aria-hidden="true"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>CYBERSECURITY</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
       </div>
     </section>
 
@@ -86,7 +108,7 @@
 
       <article class="project-card project-resq reveal">
         <div class="project-visual">
-          <img src="assets/resq/01-emergency-sos.png" alt="ResQ emergency SOS message and location screenshot">
+          <img loading="lazy" decoding="async" src="assets/resq/01-emergency-sos.png" alt="ResQ emergency SOS message and location screenshot">
           <div class="visual-tag">01 / 02</div>
         </div>
         <div class="project-body">
@@ -103,7 +125,7 @@
 
       <article class="project-card project-mini reveal">
         <div class="project-visual">
-          <img src="assets/miniplay/02-music-library.png" alt="MiniPlay music library interface showing songs and player controls">
+          <img loading="lazy" decoding="async" src="assets/miniplay/02-music-library.png" alt="MiniPlay music library interface showing songs and player controls">
           <div class="visual-tag">02 / 02</div>
         </div>
         <div class="project-body">
@@ -133,16 +155,16 @@
           </div>
         </div>
         <div class="media-stack reveal" data-delay="200">
-          <figure class="media-card"><img src="assets/resq/02-dispatch-dashboard.png" alt="ResQ emergency dispatch dashboard over a Mumbai map"><figcaption>Real-time hospital and ambulance dispatch dashboard with traffic context.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/03-ambulance-routing.png" alt="ResQ dashboard showing an ambulance carrying a patient to a hospital"><figcaption>Live ambulance state showing pickup-to-hospital routing and patient onboarding.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/04-map-routing.png" alt="ResQ mobile map interface with emergency locations"><figcaption>Mobile routing view designed for route discovery and emergency-aware navigation.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/05-splash-screen.png" alt="ResQ splash screen with the application logo"><figcaption>ResQ brand and launch screen introducing the emergency mobility platform.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/06-user-login.png" alt="ResQ user login screen with Normal and Safe Route modes"><figcaption>Unified user login with a choice between Normal Route and Safe Route experiences.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/07-emergency-services.png" alt="ResQ emergency services registration screen"><figcaption>Verified emergency-services onboarding with hospital ID and driver identity workflow.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/08-resq-login.png" alt="ResQ account selection screen showing User Login and Emergency Services"><figcaption>Role-based entry point separating commuter and emergency-service journeys.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/09-profile.png" alt="ResQ profile page with safety and travel preferences"><figcaption>Profile area combining account switching, safety tools, reporting and travel preferences.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/10-sos-alert.png" alt="ResQ sudden movement detected safety alert"><figcaption>Intelligent SOS flow triggered by abnormal movement, giving the user a quick safe-or-danger response.</figcaption></figure>
-          <figure class="media-card"><img src="assets/resq/01-emergency-sos.png" alt="Emergency SOS message with shared map location"><figcaption>SOS communication flow sharing the user's location so trusted contacts can respond quickly.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/02-dispatch-dashboard.png" alt="ResQ emergency dispatch dashboard over a Mumbai map"><figcaption>Real-time hospital and ambulance dispatch dashboard with traffic context.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/03-ambulance-routing.png" alt="ResQ dashboard showing an ambulance carrying a patient to a hospital"><figcaption>Live ambulance state showing pickup-to-hospital routing and patient onboarding.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/04-map-routing.png" alt="ResQ mobile map interface with emergency locations"><figcaption>Mobile routing view designed for route discovery and emergency-aware navigation.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/05-splash-screen.png" alt="ResQ splash screen with the application logo"><figcaption>ResQ brand and launch screen introducing the emergency mobility platform.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/06-user-login.png" alt="ResQ user login screen with Normal and Safe Route modes"><figcaption>Unified user login with a choice between Normal Route and Safe Route experiences.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/07-emergency-services.png" alt="ResQ emergency services registration screen"><figcaption>Verified emergency-services onboarding with hospital ID and driver identity workflow.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/08-resq-login.png" alt="ResQ account selection screen showing User Login and Emergency Services"><figcaption>Role-based entry point separating commuter and emergency-service journeys.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/09-profile.png" alt="ResQ profile page with safety and travel preferences"><figcaption>Profile area combining account switching, safety tools, reporting and travel preferences.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/10-sos-alert.png" alt="ResQ sudden movement detected safety alert"><figcaption>Intelligent SOS flow triggered by abnormal movement, giving the user a quick safe-or-danger response.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/resq/01-emergency-sos.png" alt="Emergency SOS message with shared map location"><figcaption>SOS communication flow sharing the user's location so trusted contacts can respond quickly.</figcaption></figure>
         </div>
       </div>
     </section>
@@ -161,12 +183,12 @@
           </div>
         </div>
         <div class="media-stack reveal" data-delay="200">
-          <figure class="media-card"><img src="assets/miniplay/01-authentication.png" alt="MiniPlay user authentication screen"><figcaption>Authentication interface establishing the entry point for individual music accounts.</figcaption></figure>
-          <figure class="media-card"><img src="assets/miniplay/02-music-library.png" alt="MiniPlay all songs library with playback controls"><figcaption>Core music library with song metadata, actions and persistent playback controls.</figcaption></figure>
-          <figure class="media-card"><img src="assets/miniplay/03-genres.png" alt="MiniPlay browse genres screen"><figcaption>Genre-based discovery designed for fast exploration across music categories.</figcaption></figure>
-          <figure class="media-card"><img src="assets/miniplay/04-albums.png" alt="MiniPlay browse albums screen with album artwork"><figcaption>Album browsing interface with artwork, artist metadata and release context.</figcaption></figure>
-          <figure class="media-card"><img src="assets/miniplay/05-liked-search.png" alt="MiniPlay liked songs and search interface"><figcaption>Personalized liked-song collection paired with quick search and discovery.</figcaption></figure>
-          <figure class="media-card"><img src="assets/miniplay/06-playlist.png" alt="MiniPlay playlist view with selected music"><figcaption>Playlist workflow showing saved tracks alongside the main music library.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/miniplay/01-authentication.png" alt="MiniPlay user authentication screen"><figcaption>Authentication interface establishing the entry point for individual music accounts.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/miniplay/02-music-library.png" alt="MiniPlay all songs library with playback controls"><figcaption>Core music library with song metadata, actions and persistent playback controls.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/miniplay/03-genres.png" alt="MiniPlay browse genres screen"><figcaption>Genre-based discovery designed for fast exploration across music categories.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/miniplay/04-albums.png" alt="MiniPlay browse albums screen with album artwork"><figcaption>Album browsing interface with artwork, artist metadata and release context.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/miniplay/05-liked-search.png" alt="MiniPlay liked songs and search interface"><figcaption>Personalized liked-song collection paired with quick search and discovery.</figcaption></figure>
+          <figure class="media-card"><img loading="lazy" decoding="async" src="assets/miniplay/06-playlist.png" alt="MiniPlay playlist view with selected music"><figcaption>Playlist workflow showing saved tracks alongside the main music library.</figcaption></figure>
         </div>
       </div>
     </section>
@@ -220,7 +242,6 @@
         <div class="reveal"><div class="section-label">08 — Contact</div><h2>Let’s build something useful.</h2><p class="contact-sub">Open to learning, technical conversations, project collaboration and opportunities to build.</p></div>
         <div class="contact-links reveal" data-delay="100">
           <a href="https://github.com/able-t22" target="_blank" rel="noreferrer"><span>GitHub</span><span>↗</span></a>
-          <a href="assets/Able_Thomas_Resume.pdf" target="_blank" rel="noreferrer"><span>Resume</span><span>PDF ↗</span></a>
           <a href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer"><span>LinkedIn</span><span>↗</span></a>
           <a href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer"><span>Start a conversation</span><span>↗</span></a>
         </div>
@@ -231,6 +252,8 @@
   <footer class="footer shell"><span>© 2026 Able Thomas</span><a href="#top">Back to top ↑</a></footer>
   <button id="backToTop" class="back-top" type="button" aria-label="Back to top">↑</button>
 
-  <script src="script.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+  <script defer src="script.js"></script>
 </body>
 </html>
