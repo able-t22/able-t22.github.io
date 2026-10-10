@@ -123,6 +123,16 @@
     });
   };
   wrapWords(heading);
+  $$('.section-heading h2, .section-content .display, .values-title, .contact-inner h2').forEach(title => {
+    title.classList.add('scroll-title');
+    wrapWords(title);
+  });
+  $$('main > .section').forEach(section => {
+    const line = document.createElement('div');
+    line.className = 'section-line';
+    line.setAttribute('aria-hidden', 'true');
+    section.prepend(line);
+  });
 
   function setupMotion() {
     media?.revert();
@@ -152,8 +162,8 @@
 
     gsap.registerPlugin(ScrollTrigger);
     media = gsap.matchMedia();
-    media.add({ desktop: '(min-width: 1001px)', fine: '(hover: hover) and (pointer: fine)', mobile: '(max-width: 1000px)' }, context => {
-      const { desktop, fine } = context.conditions;
+    media.add({ desktop: '(min-width: 1001px)', fine: '(hover: hover) and (pointer: fine)', mobile: '(max-width: 1000px)', cinematic: '(min-width: 1001px) and (min-height: 800px)' }, context => {
+      const { desktop, fine, cinematic } = context.conditions;
       const cleanup = [];
       const duration = desktop ? .85 : .55;
       const heroIntro = gsap.timeline({ defaults: { ease: 'power3.out', duration } });
@@ -165,13 +175,29 @@
         .from('.system-card', { y: 35, rotation: -3, opacity: 0, duration: 1.1 }, .25)
         .from('.system-grid > div', { y: 10, opacity: 0, stagger: .08 }, .7);
 
+      // Build the pin first so all later triggers account for its scroll spacing.
+      const showcase = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: '.work-intro', start: cinematic ? 'top 82px' : 'top 85%',
+          end: cinematic ? () => '+=' + Math.round(innerHeight * .85) : 'bottom 70%',
+          pin: Boolean(cinematic), scrub: .65, anticipatePin: cinematic ? 1 : 0,
+          invalidateOnRefresh: true
+        }
+      });
+      showcase.fromTo('.work-stage h2', { scale: .86, y: 30 }, { scale: 1, y: 0, duration: .8 }, 0)
+        .fromTo('.preview-resq', { scale: cinematic ? .65 : .88, rotation: -7, xPercent: -9 }, { scale: 1, rotation: 0, xPercent: 0, duration: 1 }, 0)
+        .fromTo('.preview-mini', { scale: cinematic ? .65 : .88, rotation: 7, xPercent: 9 }, { scale: 1, rotation: 0, xPercent: 0, duration: 1 }, 0)
+        .fromTo('.preview-image img', { scale: 1 }, { scale: 1.16, duration: .5 }, .5);
+
       // Large containers stay visible; individual cards reveal at their own viewport position.
-      const revealTargets = $$('.reveal').filter(el => !el.closest('.hero') && !el.matches('.media-stack, .timeline'));
-      revealTargets.push(...$$('.media-card, .edu-item'));
+      const revealTargets = $$('.reveal').filter(el => !el.closest('.hero') && !el.matches('.media-stack, .timeline, .project-card, .skill-column, .achievement-card, .section-heading, .values-title'));
+      revealTargets.push(...$$('.media-card'));
       gsap.set(revealTargets, { opacity: 0, y: desktop ? 30 : 18 });
+      context.add('revealBatch', batch => gsap.to(batch, { opacity: 1, y: 0, duration, stagger: .085, ease: 'power3.out', clearProps: 'opacity,transform' }));
       ScrollTrigger.batch(revealTargets, {
         start: 'top 94%', once: true, interval: .08, batchMax: desktop ? 4 : 2,
-        onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration, stagger: .085, ease: 'power3.out', clearProps: 'opacity,transform' })
+        onEnter: batch => context.revealBatch(batch)
       });
       $$('.feature-list, .skill-stack, .contact-links').forEach(group => {
         gsap.from(group.children, { y: 12, opacity: 0, stagger: .055, duration: .55, ease: 'power2.out',
@@ -190,6 +216,57 @@
         });
         cleanup.push(() => { el.textContent = original; });
       });
+
+      // Scrubbed motion follows the scrollbar in both directions, without scroll hijacking.
+      $$('.scroll-title').forEach(title => {
+        gsap.fromTo(title.querySelectorAll('.word'), { opacity: .22, yPercent: 18 }, {
+          opacity: 1, yPercent: 0, stagger: .09, ease: 'none',
+          scrollTrigger: { trigger: title, start: 'top 88%', end: 'bottom 58%', scrub: .35 }
+        });
+      });
+      $$('.section-line').forEach(line => gsap.fromTo(line, { scaleX: 0 }, {
+        scaleX: 1, ease: 'none', scrollTrigger: { trigger: line.parentElement, start: 'top 92%', end: 'top 45%', scrub: .4 }
+      }));
+      $$('.project-card').forEach(card => {
+        gsap.fromTo(card, { scale: desktop ? .88 : .95, y: desktop ? 65 : 28 }, {
+          scale: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: card, start: 'top 96%', end: 'top 18%', scrub: .55 }
+        });
+        gsap.fromTo(card.querySelector('.project-visual img'), { scale: 1, yPercent: -2 }, {
+          scale: desktop ? 1.22 : 1.1, yPercent: 2, ease: 'none',
+          scrollTrigger: { trigger: card.querySelector('.project-visual'), start: 'top 88%', end: 'bottom 12%', scrub: .6 }
+        });
+        gsap.from(card.querySelectorAll('.project-kicker, h3, .project-subtitle, .project-actions'), {
+          x: desktop ? 28 : 14, opacity: 0, duration: .75, stagger: .09, ease: 'power3.out',
+          scrollTrigger: { trigger: card.querySelector('.project-body'), start: 'top 88%', once: true }
+        });
+        gsap.from(card.querySelector('.visual-tag'), { scale: .6, opacity: 0, duration: .6, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: card, start: 'top 72%', once: true } });
+      });
+      $$('.skill-column').forEach((column, i) => gsap.from(column, {
+        y: 45, rotationX: desktop ? 8 : 0, scale: .95, opacity: 0, duration: .85,
+        delay: (i % 2) * .1, ease: 'power3.out',
+        scrollTrigger: { trigger: column, start: 'top 92%', once: true }
+      }));
+      $$('.achievement-card').forEach((card, i) => gsap.from(card, {
+        y: 50, rotation: desktop ? (i - 1) * 4 : 0, scale: .9, opacity: 0,
+        duration: .85, ease: 'power3.out', delay: desktop ? i * .09 : 0,
+        scrollTrigger: { trigger: card, start: 'top 92%', once: true }
+      }));
+      gsap.fromTo('.timeline-rail', { scaleY: 0 }, { scaleY: 1, ease: 'none',
+        scrollTrigger: { trigger: '.timeline', start: 'top 72%', end: 'bottom 65%', scrub: .4 } });
+      $$('.edu-item').forEach(item => gsap.from(item, {
+        x: -24, opacity: 0, duration: .7, ease: 'power3.out',
+        scrollTrigger: { trigger: item, start: 'top 87%', once: true }
+      }));
+      gsap.fromTo('.contact-inner', { scale: desktop ? .92 : .97, y: 30 }, { scale: 1, y: 0, ease: 'none',
+        scrollTrigger: { trigger: '.contact-section', start: 'top 92%', end: 'top 35%', scrub: .5 } });
+      if (desktop) {
+        $$('.media-card img').forEach(img => gsap.fromTo(img, { scale: 1 }, { scale: 1.06, ease: 'none',
+          scrollTrigger: { trigger: img.parentElement, start: 'top 90%', end: 'bottom 20%', scrub: .5 } }));
+        gsap.fromTo('.hero-copy', { scale: 1, y: 0, opacity: 1 }, { scale: 1.07, y: -48, opacity: .25, ease: 'none',
+          scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 22%', scrub: .6 } });
+      }
 
       // Only two ambient loops; both stop offscreen and in background tabs.
       const ticker = gsap.to('.ticker-track', { xPercent: -50, repeat: -1, duration: 38, ease: 'none', paused: true });
@@ -214,9 +291,7 @@
 
       if (desktop) {
         gsap.to('.hero-art', { y: -32, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .6 } });
-        $$('.project-visual img').forEach(img => gsap.fromTo(img, { scale: 1.07, yPercent: -2 }, {
-          scale: 1, yPercent: 2, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: .6 }
-        }));
+
       }
       if (fine) {
         const listen = (el, type, fn) => { el.addEventListener(type, fn); cleanup.push(() => el.removeEventListener(type, fn)); };
