@@ -13,6 +13,14 @@
 </head>
 <body>
   <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="custom-cursor custom-cursor--dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="custom-cursor custom-cursor--ring" id="cursorRing" aria-hidden="true"><span id="cursorLabel">MOVE</span></div>
+  </div>
+  <div class="page-wipe" id="pageWipe" aria-hidden="true">
+    <span class="page-wipe__panel"></span>
+    <span class="page-wipe__panel"></span>
+    <div class="page-wipe__identity"><p class="page-wipe__name">Able Thomas</p></div>
+  </div>
   <div class="progress" id="progress" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -49,48 +57,19 @@
         </div>
         <div class="hero-meta"><span>India</span><span class="dot-separator">•</span><span>Open to learning & collaboration</span></div>
       </div>
-      <div class="hero-art reveal" data-delay="150">
-        <div class="orbit orbit-outer" aria-hidden="true"></div>
-        <div class="orbit orbit-inner" aria-hidden="true"></div>
-        <svg class="bloom-illustration" viewBox="0 0 500 500" fill="none" aria-hidden="true">
-          <circle class="bloom-sun" cx="350" cy="115" r="47" />
-          <path class="bloom-stem" d="M250 455 C230 390 252 332 244 274 C238 226 270 184 278 148" />
-          <path class="bloom-stem bloom-stem-alt" d="M245 356 C197 330 182 286 187 246" />
-          <path class="bloom-stem bloom-stem-alt" d="M248 320 C300 300 328 258 327 218" />
-          <path class="bloom-leaf leaf-a" d="M239 379 C184 389 150 361 145 326 C191 323 225 342 239 379Z" />
-          <path class="bloom-leaf leaf-b" d="M250 331 C296 329 326 300 328 266 C287 270 259 294 250 331Z" />
-          <path class="bloom-leaf leaf-c" d="M190 281 C144 277 119 248 125 218 C163 227 187 249 190 281Z" />
-          <path class="bloom-leaf leaf-d" d="M323 250 C358 224 366 191 351 165 C322 190 313 221 323 250Z" />
-          <g class="flower flower-one" transform="translate(278 130)">
-            <ellipse class="petal petal-lilac" cx="0" cy="-23" rx="12" ry="22" />
-            <ellipse class="petal petal-lilac" cx="22" cy="-7" rx="12" ry="22" transform="rotate(65 22 -7)" />
-            <ellipse class="petal petal-lilac" cx="14" cy="18" rx="12" ry="22" transform="rotate(135 14 18)" />
-            <ellipse class="petal petal-lilac" cx="-15" cy="18" rx="12" ry="22" transform="rotate(225 -15 18)" />
-            <ellipse class="petal petal-lilac" cx="-22" cy="-7" rx="12" ry="22" transform="rotate(295 -22 -7)" />
-            <circle class="flower-core" r="10" />
-          </g>
-          <g class="flower flower-two" transform="translate(187 227) scale(.72)">
-            <ellipse class="petal petal-peach" cx="0" cy="-23" rx="12" ry="22" />
-            <ellipse class="petal petal-peach" cx="22" cy="-7" rx="12" ry="22" transform="rotate(65 22 -7)" />
-            <ellipse class="petal petal-peach" cx="14" cy="18" rx="12" ry="22" transform="rotate(135 14 18)" />
-            <ellipse class="petal petal-peach" cx="-15" cy="18" rx="12" ry="22" transform="rotate(225 -15 18)" />
-            <ellipse class="petal petal-peach" cx="-22" cy="-7" rx="12" ry="22" transform="rotate(295 -22 -7)" />
-            <circle class="flower-core" r="10" />
-          </g>
-        </svg>
-        <span class="art-coordinate" aria-hidden="true">THINK / BUILD / ITERATE</span>
-        <div class="system-card">
-          <div class="system-top"><span><i class="card-status" aria-hidden="true"></i> CURRENT FOCUS</span><span>AT / 2026</span></div>
-          <div class="system-title">From an idea<br>to something<br><em>that works.</em></div>
-          <div class="code-note" aria-hidden="true"><span>const</span> approach = [<br>&nbsp;&nbsp;'stay curious',<br>&nbsp;&nbsp;'solve real problems'<br>];</div>
-          <div class="system-grid">
-            <div><strong>ResQ</strong><span>Emergency routing</span></div>
-            <div><strong>MiniPlay</strong><span>Music streaming</span></div>
-            <div><strong>VIT</strong><span>CSE Core</span></div>
-            <div><strong>9.74</strong><span>Current CGPA</span></div>
-          </div>
+
+      <div class="hero-art reveal" data-delay="150" aria-label="Portrait of Able Thomas">
+        <div class="portrait-frame" id="heroPortraitFrame" data-cursor-label="VIEW">
+          <div class="portrait-frame__backplate" aria-hidden="true"></div>
+          <img class="hero-portrait" src="assets/able-thomas-portrait.webp" alt="Able Thomas smiling in a white pinstriped shirt" fetchpriority="high" width="900" height="1125">
         </div>
+        <div class="portrait-chip portrait-chip--focus">
+          <span class="portrait-chip__dot" aria-hidden="true"></span>
+          <div><strong>CSE CORE</strong><small>VIT VELLORE</small></div>
+        </div>
+        <div class="portrait-chip portrait-chip--score"><strong>9.74</strong><span>CGPA</span></div>
       </div>
+
       <a class="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><span aria-hidden="true">↓</span></a>
     </section>
 
@@ -173,24 +152,24 @@
       </article>
     </section>
 
-    <section class="section shell detail-section" id="resq-details">
+    <section id="resq-details" class="section shell detail-section">
       <div class="section-label reveal">03 — ResQ deep dive</div>
       <div class="detail-layout">
         <div class="detail-copy reveal" data-delay="100">
           <span class="detail-index">RESQ / 01</span>
-          <h2>Emergency routing, safer travel and traffic intelligence.</h2>
-          <p>ResQ brings together three routing experiences — Normal, SafeRoute and Emergency Services — backed by a web control layer for emergency operations and traffic-aware simulation.</p>
+          <h2>Helping people move smarter when every second matters.</h2>
+          <p>ResQ is a mobility and emergency-routing project that explores how route planning, traffic awareness and safety signals can work together. It includes commuter routing, safer travel options and an emergency-services workflow.</p>
           <div class="feature-list">
-            <div><span>01</span><p><b>Emergency Services</b><br>Nearest-ambulance assignment, pickup routing, hospital routing and live dispatch state.</p></div>
-            <div><span>02</span><p><b>SafeRoute</b><br>Women-focused routing using road width, activity, streetlights, reports and time-of-day context.</p></div>
-            <div><span>03</span><p><b>Operations dashboard</b><br>CCTV upload workflow, YOLOv8 detection, signal-control simulation and route monitoring.</p></div>
+            <div><span>01</span><p><b>Route planning</b><br>Pathfinding designed around road networks and travel constraints.</p></div>
+            <div><span>02</span><p><b>Safer journeys</b><br>A route mode that considers environmental safety signals.</p></div>
+            <div><span>03</span><p><b>Emergency response</b><br>Ambulance routing and an operations dashboard for response coordination.</p></div>
           </div>
         </div>
         <div class="media-stack reveal" data-delay="200">
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/02-dispatch-dashboard.png" alt="ResQ emergency dispatch dashboard over a Mumbai map"></div><figcaption>Real-time hospital and ambulance dispatch dashboard with traffic context.</figcaption></figure>
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/03-ambulance-routing.png" alt="ResQ dashboard showing an ambulance carrying a patient to a hospital"></div><figcaption>Live ambulance state showing pickup-to-hospital routing and patient onboarding.</figcaption></figure>
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/04-map-routing.png" alt="ResQ mobile map interface with emergency locations"></div><figcaption>Mobile routing view designed for route discovery and emergency-aware navigation.</figcaption></figure>
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/05-splash-screen.png" alt="ResQ splash screen with the application logo"></div><figcaption>ResQ brand and launch screen introducing the emergency mobility platform.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/02-dispatch-dashboard.png" alt="ResQ emergency dispatch dashboard"></div><figcaption>Operations dashboard for monitoring dispatch and route information.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/03-user-home.png" alt="ResQ commuter home screen"></div><figcaption>Commuter home screen for accessing everyday routing and safety features.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/04-route-options.png" alt="ResQ route options screen"></div><figcaption>Route selection interface presenting alternative journeys.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/05-brand-launch.png" alt="ResQ brand and launch screen"></div><figcaption>ResQ brand and launch screen introducing the emergency mobility platform.</figcaption></figure>
           <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/06-user-login.png" alt="ResQ user login screen with Normal and Safe Route modes"></div><figcaption>Unified user login with a choice between Normal Route and Safe Route experiences.</figcaption></figure>
           <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/07-emergency-services.png" alt="ResQ emergency services registration screen"></div><figcaption>Verified emergency-services onboarding with hospital ID and driver identity workflow.</figcaption></figure>
           <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/08-resq-login.png" alt="ResQ account selection screen showing User Login and Emergency Services"></div><figcaption>Role-based entry point separating commuter and emergency-service journeys.</figcaption></figure>
@@ -284,8 +263,8 @@
   <footer class="footer shell"><span>© 2026 Able Thomas</span><a href="#top">Back to top ↑</a></footer>
   <button id="backToTop" class="back-top" type="button" aria-label="Back to top">↑</button>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
   <script defer src="script.js"></script>
 </body>
 </html>
