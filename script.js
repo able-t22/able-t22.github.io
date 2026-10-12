@@ -341,10 +341,23 @@
       gsap.fromTo('.timeline-rail', { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: {
         trigger: '.timeline', start: 'top 76%', end: 'bottom 70%', scrub: .45
       }});
-      $$('.edu-item').forEach(item => gsap.fromTo(item, { x: -18, opacity: 0 }, {
-        x: 0, opacity: 1, duration: .7, ease, clearProps: 'transform,opacity',
-        scrollTrigger: { trigger: item, start: 'top 88%', once: true }
-      }));
+      $$('.edu-item').forEach((item, index) => {
+        gsap.fromTo(item, {
+          x: desktop ? -54 : -20, y: 18, rotationY: desktop ? -5 : 0,
+          opacity: 0, filter: 'blur(5px)', clipPath: 'inset(0 0 0 8% round 10px)',
+          transformPerspective: 1100, transformOrigin: 'left center'
+        }, {
+          x: 0, y: 0, rotationY: 0, opacity: 1, filter: 'blur(0px)',
+          clipPath: 'inset(0 0 0 0% round 10px)', duration: desktop ? .9 : .62,
+          delay: desktop ? index * .04 : 0, ease: 'power3.out', clearProps: 'transform,opacity,filter,clipPath',
+          scrollTrigger: { trigger: item, start: 'top 88%', once: true }
+        });
+        const chips = $$('.edu-meta span', item);
+        if (chips.length) gsap.fromTo(chips, { y: 12, scale: .88, opacity: 0 }, {
+          y: 0, scale: 1, opacity: 1, duration: .45, stagger: .09, ease: 'back.out(1.45)',
+          clearProps: 'transform,opacity', scrollTrigger: { trigger: item, start: 'top 78%', once: true }
+        });
+      });
       $$('.achievement-card').forEach((card, index) => gsap.fromTo(card, {
         y: 30, rotation: desktop ? (index - 1) * 1.5 : 0, opacity: 0, scale: .975
       }, {
@@ -484,6 +497,8 @@
           });
         };
         $$('.project-card').forEach(card => attachTilt(card, 2.1, 7));
+        $$('.edu-item').forEach(card => attachTilt(card, 1.6, 3));
+        $$('.achievement-card').forEach(card => attachTilt(card, 2.8, 5));
         $$('.skill-logo-card').forEach(card => {
           card.classList.add('gsap-tilting');
           attachTilt(card, 5.5, 7);
