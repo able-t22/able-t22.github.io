@@ -1030,3 +1030,119 @@ body { font-size: var(--text-body); line-height: 1.7; }
 @media (prefers-reduced-motion: reduce) {
   .button::after, .nav-cta::after, .edu-item::before, .edu-item::after, .achievement-card::before { transition: none !important; }
 }
+
+
+/* Resume download actions */
+.nav-resume {
+  position: relative;
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 17px;
+  border: 1px solid rgba(56, 76, 63, .3);
+  border-radius: 999px;
+  color: var(--green-deep);
+  background: rgba(255, 253, 247, .76);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color .25s ease, background .25s ease, border-color .25s ease, transform .25s ease;
+}
+.nav-resume span { font-size: 16px; transition: transform .25s ease; }
+.nav-resume:hover { color: #fffdf7; background: #65529b; border-color: #65529b; transform: translateY(-2px); }
+.nav-resume:hover span { transform: translateY(3px); }
+.button-resume { border-color: rgba(84, 75, 128, .38); background: rgba(255,253,247,.62); }
+.button-resume:hover { color: #4f3e83; border-color: #7b69ac; background: rgba(238,231,249,.72); }
+.footer-actions { display: flex; align-items: center; gap: 24px; }
+.footer-actions a:first-child { color: #66529b; }
+
+/* A more expressive, jewel-toned aurora transition for navbar section changes. */
+.page-wipe { background: #57418e !important; isolation: isolate; }
+.page-wipe__panel {
+  overflow: hidden;
+  background: linear-gradient(135deg, #3d2b70 0%, #6750a5 48%, #8c8bd5 100%) !important;
+}
+.page-wipe__panel:nth-child(2) {
+  background: linear-gradient(135deg, #f3a38f 0%, #f6c7a1 44%, #dfc4ee 100%) !important;
+}
+.page-wipe__panel::before,
+.page-wipe__panel::after {
+  content: "";
+  position: absolute;
+  width: min(64vw, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(10px);
+  opacity: .7;
+  animation: transition-orbit 7s ease-in-out infinite alternate;
+}
+.page-wipe__panel::before {
+  top: -24%; left: -18%;
+  background: radial-gradient(circle at 45% 45%, rgba(194,190,255,.72), rgba(163,146,230,.22) 38%, transparent 68%);
+}
+.page-wipe__panel::after {
+  right: -23%; bottom: -45%;
+  width: min(58vw, 650px);
+  background: radial-gradient(circle at 50% 50%, rgba(255,230,190,.64), rgba(255,201,178,.18) 45%, transparent 70%);
+  animation-duration: 9s;
+  animation-direction: alternate-reverse;
+}
+.page-wipe__panel:nth-child(2)::before {
+  top: 18%; left: 8%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,248,227,.7), rgba(255,218,197,.26) 42%, transparent 70%);
+}
+.page-wipe__panel:nth-child(2)::after {
+  right: -15%; bottom: -28%;
+  background: radial-gradient(circle at 50% 50%, rgba(177,145,224,.52), rgba(202,171,235,.16) 46%, transparent 70%);
+}
+.page-wipe__identity {
+  color: #fffdf8;
+}
+.page-wipe__identity::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: clamp(240px, 32vw, 360px);
+  height: 76px;
+  border: 1px solid rgba(255,255,255,.34);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(57,42,92,.5), rgba(94,71,127,.24));
+  box-shadow: 0 24px 90px rgba(35,25,67,.18), inset 0 1px 0 rgba(255,255,255,.22);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.page-wipe__identity::after {
+  content: "";
+  position: absolute;
+  width: 44px;
+  height: 2px;
+  margin-top: 40px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ffe1a7, #ffb9b0, #c6c3ff);
+  box-shadow: 0 0 18px rgba(255,226,184,.62);
+  transform-origin: center;
+}
+.page-wipe__name {
+  position: relative;
+  z-index: 1;
+  color: #fffdf8;
+  font-size: 14px;
+  letter-spacing: .15em;
+  text-shadow: 0 2px 18px rgba(30,20,57,.24);
+}
+@keyframes transition-orbit {
+  0% { transform: translate3d(-2%, -1%, 0) scale(.96) rotate(-4deg); }
+  100% { transform: translate3d(4%, 3%, 0) scale(1.08) rotate(6deg); }
+}
+@media (max-width: 680px) {
+  .nav-resume { display: none; }
+  .footer-actions { gap: 15px; }
+  .page-wipe__identity::before { width: 230px; height: 68px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-wipe__panel::before, .page-wipe__panel::after { animation: none !important; }
+  .nav-resume, .nav-resume span { transition: none !important; }
+}
