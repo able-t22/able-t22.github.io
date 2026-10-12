@@ -4,18 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Able Thomas — Computer Science student at VIT Vellore, software developer building ResQ and MiniPlay.">
-  <meta name="theme-color" content="#101211">
+  <meta name="theme-color" content="#f8f6ef">
   <title>Able Thomas — Developer Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="ambient ambient-one" aria-hidden="true"></div>
-  <div class="ambient ambient-two" aria-hidden="true"></div>
-  <div class="grid-overlay" aria-hidden="true"></div>
-  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="grain-overlay" aria-hidden="true"></div>
   <div class="progress" id="progress" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -35,9 +32,6 @@
       </div>
       <div class="header-actions">
         <button class="motion-toggle" id="motionToggle" type="button" aria-label="Pause animations" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><span class="motion-label">Motion</span></button>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">
-          <span class="theme-icon">☾</span><span class="theme-label">Dark</span>
-        </button>
         <a class="nav-cta" href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer">Connect ↗</a>
       </div>
     </nav>
@@ -58,6 +52,32 @@
       <div class="hero-art reveal" data-delay="150">
         <div class="orbit orbit-outer" aria-hidden="true"></div>
         <div class="orbit orbit-inner" aria-hidden="true"></div>
+        <svg class="bloom-illustration" viewBox="0 0 500 500" fill="none" aria-hidden="true">
+          <circle class="bloom-sun" cx="350" cy="115" r="47" />
+          <path class="bloom-stem" d="M250 455 C230 390 252 332 244 274 C238 226 270 184 278 148" />
+          <path class="bloom-stem bloom-stem-alt" d="M245 356 C197 330 182 286 187 246" />
+          <path class="bloom-stem bloom-stem-alt" d="M248 320 C300 300 328 258 327 218" />
+          <path class="bloom-leaf leaf-a" d="M239 379 C184 389 150 361 145 326 C191 323 225 342 239 379Z" />
+          <path class="bloom-leaf leaf-b" d="M250 331 C296 329 326 300 328 266 C287 270 259 294 250 331Z" />
+          <path class="bloom-leaf leaf-c" d="M190 281 C144 277 119 248 125 218 C163 227 187 249 190 281Z" />
+          <path class="bloom-leaf leaf-d" d="M323 250 C358 224 366 191 351 165 C322 190 313 221 323 250Z" />
+          <g class="flower flower-one" transform="translate(278 130)">
+            <ellipse class="petal petal-lilac" cx="0" cy="-23" rx="12" ry="22" />
+            <ellipse class="petal petal-lilac" cx="22" cy="-7" rx="12" ry="22" transform="rotate(65 22 -7)" />
+            <ellipse class="petal petal-lilac" cx="14" cy="18" rx="12" ry="22" transform="rotate(135 14 18)" />
+            <ellipse class="petal petal-lilac" cx="-15" cy="18" rx="12" ry="22" transform="rotate(225 -15 18)" />
+            <ellipse class="petal petal-lilac" cx="-22" cy="-7" rx="12" ry="22" transform="rotate(295 -22 -7)" />
+            <circle class="flower-core" r="10" />
+          </g>
+          <g class="flower flower-two" transform="translate(187 227) scale(.72)">
+            <ellipse class="petal petal-peach" cx="0" cy="-23" rx="12" ry="22" />
+            <ellipse class="petal petal-peach" cx="22" cy="-7" rx="12" ry="22" transform="rotate(65 22 -7)" />
+            <ellipse class="petal petal-peach" cx="14" cy="18" rx="12" ry="22" transform="rotate(135 14 18)" />
+            <ellipse class="petal petal-peach" cx="-15" cy="18" rx="12" ry="22" transform="rotate(225 -15 18)" />
+            <ellipse class="petal petal-peach" cx="-22" cy="-7" rx="12" ry="22" transform="rotate(295 -22 -7)" />
+            <circle class="flower-core" r="10" />
+          </g>
+        </svg>
         <span class="art-coordinate" aria-hidden="true">THINK / BUILD / ITERATE</span>
         <div class="system-card">
           <div class="system-top"><span><i class="card-status" aria-hidden="true"></i> CURRENT FOCUS</span><span>AT / 2026</span></div>
@@ -67,7 +87,7 @@
             <div><strong>ResQ</strong><span>Emergency routing</span></div>
             <div><strong>MiniPlay</strong><span>Music streaming</span></div>
             <div><strong>VIT</strong><span>CSE Core</span></div>
-            <div><strong>9.75</strong><span>Current CGPA</span></div>
+            <div><strong>9.74</strong><span>Current CGPA</span></div>
           </div>
         </div>
       </div>
@@ -76,8 +96,8 @@
 
     <section class="ticker" aria-label="Areas of interest">
       <div class="ticker-track">
-        <div class="ticker-group"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>CYBERSECURITY</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
-        <div class="ticker-group" aria-hidden="true"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>CYBERSECURITY</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
+        <div class="ticker-group"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>WEB EXPERIENCES</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
+        <div class="ticker-group" aria-hidden="true"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>WEB EXPERIENCES</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
       </div>
     </section>
 
@@ -92,9 +112,9 @@
           </div>
           <div class="mini-stats">
             <div><strong>2025–29</strong><span>VIT · B.Tech CSE</span></div>
-            <div><strong>9.75</strong><span>Current CGPA</span></div>
+            <div><strong>9.74</strong><span>Current CGPA</span></div>
             <div><strong>2</strong><span>Featured projects</span></div>
-            <div><strong>#1</strong><span>CSE Cybersecurity rank holder</span></div>
+            <div><strong>Build</strong><span>Ideas into working systems</span></div>
           </div>
         </div>
       </div>
@@ -223,7 +243,7 @@
       <div class="timeline reveal" data-delay="100"><div class="timeline-rail" aria-hidden="true"></div>
         <article class="edu-item">
           <div class="edu-time">JUL 2025 — JUL 2029</div>
-          <div class="edu-main"><h3>Vellore Institute of Technology (VIT)</h3><p>Bachelor of Technology · Computer Science & Engineering · Vellore</p><div class="edu-meta"><span>CGPA 9.75</span><span>CSE Core</span><span>CSE Cybersecurity 1st Rank Holder</span></div></div>
+          <div class="edu-main"><h3>Vellore Institute of Technology (VIT)</h3><p>Bachelor of Technology · Computer Science & Engineering · Vellore</p><div class="edu-meta"><span>CGPA 9.74</span><span>CSE Core</span></div></div>
           <div class="edu-side">01</div>
         </article>
         <article class="edu-item">
