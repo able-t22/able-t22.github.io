@@ -15,10 +15,8 @@
   <div class="grain-overlay" aria-hidden="true"></div>
   <div class="custom-cursor custom-cursor--dot" id="cursorDot" aria-hidden="true"></div>
   <div class="custom-cursor custom-cursor--ring" id="cursorRing" aria-hidden="true"><span id="cursorLabel">MOVE</span></div>
-  </div>
   <div class="page-wipe" id="pageWipe" aria-hidden="true">
-    <span class="page-wipe__panel"></span>
-    <span class="page-wipe__panel"></span>
+    <span class="page-wipe__panel"></span><span class="page-wipe__panel"></span>
     <div class="page-wipe__identity"><p class="page-wipe__name">Able Thomas</p></div>
   </div>
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -32,86 +30,91 @@
       </a>
       <button class="menu-toggle" id="menuToggle" type="button" aria-controls="navLinks" aria-label="Open navigation" aria-expanded="false">☰</button>
       <div class="nav-links" id="navLinks">
+        <a href="#top">Home</a>
         <a href="#about">About</a>
-        <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
         <a href="#education">Education</a>
         <a href="#contact">Contact</a>
       </div>
       <div class="header-actions">
-        <button class="motion-toggle" id="motionToggle" type="button" aria-label="Pause animations" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><span class="motion-label">Motion</span></button>
-        <a class="nav-cta" href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer">Connect ↗</a>
+        <a class="nav-cta" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </div>
     </nav>
   </header>
 
   <main id="main" tabindex="-1">
-    <section class="hero shell">
+    <section class="hero shell" aria-label="Introduction">
       <div class="hero-copy reveal">
-        <div class="eyebrow"><span class="status-dot"></span> CSE Core · VIT Vellore</div>
-        <h1>Thoughtful code.<br><span>Real-world</span><br>impact.</h1>
-        <p class="hero-lede">I’m Able, a computer science student at VIT Vellore. I build full-stack applications and explore how intelligent systems can make everyday experiences better.</p>
+        <div class="eyebrow"><span class="status-dot"></span> CSE CORE DEVELOPER</div>
+        <h1>Hi, I’m<br>Able <span>Thomas</span></h1>
+        <p class="hero-lede">A computer science student at VIT Vellore who loves building meaningful products, solving real-world problems and creating thoughtful digital experiences.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#projects">Explore projects <span>↘</span></a>
-          <a class="button button-ghost" href="https://github.com/able-t22" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
+          <a class="button button-primary" href="#projects">View my work <span aria-hidden="true">→</span></a>
+          <a class="button button-ghost" href="https://github.com/able-t22" target="_blank" rel="noreferrer">Visit GitHub <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="hero-meta"><span>India</span><span class="dot-separator">•</span><span>Open to learning & collaboration</span></div>
+        <div class="hero-socials" aria-label="Social links">
+          <a href="https://github.com/able-t22" target="_blank" rel="noreferrer"><img class="social-icon" src="assets/tech/github.svg" alt=""> GitHub <span aria-hidden="true">↗</span></a>
+          <a href="https://www.linkedin.com/in/able-thomas-b09363363" target="_blank" rel="noreferrer"><span class="social-mark social-mark--linkedin" aria-hidden="true">in</span> LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href="#contact"><span class="social-mark social-mark--mail" aria-hidden="true">✉</span> Contact <span aria-hidden="true">↘</span></a>
+        </div>
+        <div class="hero-meta"><span>Vellore, India</span><span class="dot-separator">•</span><span>Passout 2029</span></div>
       </div>
-
       <div class="hero-art reveal" data-delay="150" aria-label="Portrait of Able Thomas">
+        <span class="hero-art-note hero-art-note--left">Hover<br>for magic <span aria-hidden="true">↘</span></span>
+        <span class="hero-art-index" aria-hidden="true">PORTFOLIO / 2026</span>
         <div class="portrait-frame" id="heroPortraitFrame" data-cursor-label="VIEW">
           <div class="portrait-frame__backplate" aria-hidden="true"></div>
           <img class="hero-portrait" src="assets/able-thomas-portrait.webp" alt="Able Thomas smiling in a white pinstriped shirt" fetchpriority="high" width="900" height="1125">
+          <div class="portrait-glass" aria-hidden="true"></div>
+          <div class="portrait-frame__corner" aria-hidden="true"><span>↗</span></div>
+          <div class="portrait-frame__caption" aria-hidden="true"><span>ABLE THOMAS</span><span>CSE CORE · VIT</span></div>
         </div>
         <div class="portrait-chip portrait-chip--focus">
           <span class="portrait-chip__dot" aria-hidden="true"></span>
           <div><strong>CSE CORE</strong><small>VIT VELLORE</small></div>
         </div>
-        <div class="portrait-chip portrait-chip--score"><strong>9.74</strong><span>CGPA</span></div>
-      </div>
-
-      <a class="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><span aria-hidden="true">↓</span></a>
-    </section>
-
-    <section class="ticker" aria-label="Areas of interest">
-      <div class="ticker-track">
-        <div class="ticker-group"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>WEB EXPERIENCES</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
-        <div class="ticker-group" aria-hidden="true"><span>SOFTWARE DEVELOPMENT</span><i>✦</i><span>FULL-STACK</span><i>✦</i><span>AI / ML</span><i>✦</i><span>WEB EXPERIENCES</span><i>✦</i><span>INTELLIGENT SYSTEMS</span><i>✦</i><span>PROBLEM SOLVING</span><i>✦</i></div>
-      </div>
-    </section>
-
-    <section id="about" class="section shell two-col">
-      <div class="section-label reveal">01 — About</div>
-      <div class="section-content reveal" data-delay="100">
-        <p class="display">I learn by building. From <span>safer journeys</span> to better ways to discover music, I like giving ideas a life beyond the classroom.</p>
-        <div class="about-grid">
-          <div class="about-copy">
-            <p>Focused on mastering programming concepts and exploring languages such as C, C++, Java, and Python. I enjoy turning technical knowledge into working systems, especially where software meets real-world constraints.</p>
-            <p>My work combines analytical thinking, problem solving, teamwork, communication, leadership, and a strong interest in building practical products.</p>
-          </div>
-          <div class="mini-stats">
-            <div><strong>2025–29</strong><span>VIT · B.Tech CSE</span></div>
-            <div><strong>9.74</strong><span>Current CGPA</span></div>
-            <div><strong>2</strong><span>Featured projects</span></div>
-            <div><strong>Build</strong><span>Ideas into working systems</span></div>
-          </div>
+        <div class="portrait-chip portrait-chip--score">
+          <strong>9.74</strong><span>CGPA</span>
+          <i aria-hidden="true"></i><small>PASSOUT 2029</small>
         </div>
+        <div class="hero-art-note hero-art-note--right" aria-hidden="true">BUILD<br>LEARN<br>CREATE<br>IMPACT</div>
       </div>
+      <a class="scroll-cue" href="#skills"><span>SCROLL TO EXPLORE</span><span aria-hidden="true">↓</span></a>
     </section>
 
-    <section class="work-intro" aria-labelledby="workIntroTitle">
-      <div class="work-stage shell">
-        <div class="work-stage-top"><span class="section-label">An idea is just the beginning</span><span class="section-label">02 projects / Built from scratch</span></div>
-        <h2 id="workIntroTitle">Less theory.<br><span>More making.</span></h2>
-        <div class="work-previews" aria-hidden="true">
-          <div class="work-preview preview-resq"><div class="preview-bar"><i></i><span>RESQ / EMERGENCY INTELLIGENCE</span><span>01</span></div><div class="preview-image"><img loading="lazy" decoding="async" src="assets/resq/02-dispatch-dashboard.png" alt=""></div></div>
-          <div class="work-preview preview-mini"><div class="preview-bar"><i></i><span>MINIPLAY / MUSIC DISCOVERY</span><span>02</span></div><div class="preview-image"><img loading="lazy" decoding="async" src="assets/miniplay/02-music-library.png" alt=""></div></div>
-        </div>
-        <div class="work-stage-bottom"><p>Two different challenges.<br>The same drive to figure things out.</p><a href="#projects">See the work <span aria-hidden="true">↘</span></a></div>
+<section id="skills" class="section shell">
+      <div class="section-heading reveal">
+        <div class="section-label">01 — Skills & technologies</div>
+        <h2>The tools behind<br>the things I build.</h2>
       </div>
+      <div class="skills-intro-row reveal"><p>Technologies I work with to<br>bring ideas to life.</p><span>LEARN · BUILD · ITERATE</span></div>
+      <div class="skills-logo-strip" aria-label="Technology skills">
+        <div class="skill-logo-card" title="C language"><img src="assets/tech/c.svg" alt=""><span>C</span></div>
+        <div class="skill-logo-card" title="C plus plus"><img src="assets/tech/cpp.svg" alt=""><span>C++</span></div>
+        <div class="skill-logo-card" title="Java"><img src="assets/tech/java.svg" alt=""><span>Java</span></div>
+        <div class="skill-logo-card" title="Python"><img src="assets/tech/python.svg" alt=""><span>Python</span></div>
+        <div class="skill-logo-card" title="JavaScript"><img src="assets/tech/javascript.svg" alt=""><span>JavaScript</span></div>
+        <div class="skill-logo-card" title="React"><img src="assets/tech/react.svg" alt=""><span>React</span></div>
+        <div class="skill-logo-card" title="Next.js"><img src="assets/tech/nextjs.svg" alt=""><span>Next.js</span></div>
+        <div class="skill-logo-card" title="Node.js"><img src="assets/tech/nodejs.svg" alt=""><span>Node.js</span></div>
+        <div class="skill-logo-card" title="Flutter"><img src="assets/tech/flutter.svg" alt=""><span>Flutter</span></div>
+        <div class="skill-logo-card" title="PHP"><img src="assets/tech/php.svg" alt=""><span>PHP</span></div>
+        <div class="skill-logo-card" title="MySQL"><img src="assets/tech/mysql.svg" alt=""><span>MySQL</span></div>
+        <div class="skill-logo-card" title="SQL"><img src="assets/tech/sql.svg" alt=""><span>SQL</span></div>
+        <div class="skill-logo-card" title="Flask"><img src="assets/tech/flask.svg" alt=""><span>Flask</span></div>
+        <div class="skill-logo-card" title="GSAP"><img src="assets/tech/gsap.svg" alt=""><span>GSAP</span></div>
+        <div class="skill-logo-card" title="GitHub"><img src="assets/tech/github.svg" alt=""><span>GitHub</span></div>
+        <div class="skill-logo-card" title="Vercel"><img src="assets/tech/vercel.svg" alt=""><span>Vercel</span></div>
+        <div class="skill-logo-card" title="Streamlit"><img src="assets/tech/streamlit.svg" alt=""><span>Streamlit</span></div>
+        <div class="skill-logo-card" title="SUMO traffic simulation"><img src="assets/tech/sumo.svg" alt=""><span>SUMO</span></div>
+        <div class="skill-logo-card" title="YOLO computer vision"><img src="assets/tech/yolo.svg" alt=""><span>YOLOv8</span></div>
+        <div class="skill-logo-card" title="PHP development stack"><img src="assets/tech/xampp.svg" alt=""><span>XAMPP</span></div>
+      </div>
+      <div class="strengths-row reveal"><span>Also bring</span><p>Problem solving · Analytical thinking · Teamwork · Communication · Leadership · OOP</p></div>
     </section>
 
-    <section id="projects" class="section shell">
+<section id="projects" class="section shell">
       <div class="section-heading reveal">
         <div class="section-label">02 — Selected work</div>
         <h2>Emergency routes.<br>Everyday playlists.</h2>
@@ -152,24 +155,51 @@
       </article>
     </section>
 
-    <section id="resq-details" class="section shell detail-section">
-      <div class="section-label reveal">03 — ResQ deep dive</div>
+<section id="about" class="section shell two-col">
+      <div class="section-label reveal">03 — About</div>
+      <div class="section-content reveal" data-delay="100">
+        <p class="display">I learn by building. From <span>safer journeys</span> to better ways to discover music, I like giving ideas a life beyond the classroom.</p>
+        <div class="about-grid">
+          <div class="about-copy">
+            <p>Focused on mastering programming concepts and exploring languages such as C, C++, Java, and Python. I enjoy turning technical knowledge into working systems, especially where software meets real-world constraints.</p>
+            <p>My work combines analytical thinking, problem solving, teamwork, communication, leadership, and a strong interest in building practical products.</p>
+          </div>
+          <div class="mini-stats">
+            <div><strong>2025–29</strong><span>VIT · B.Tech CSE</span></div>
+            <div><strong>9.74</strong><span>Current CGPA</span></div>
+            <div><strong>2</strong><span>Featured projects</span></div>
+            <div><strong>Build</strong><span>Ideas into working systems</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+
+
+
+    <section class="section shell detail-section" id="resq-details">
+      <div class="section-label reveal">04 — ResQ deep dive</div>
       <div class="detail-layout">
         <div class="detail-copy reveal" data-delay="100">
           <span class="detail-index">RESQ / 01</span>
-          <h2>Helping people move smarter when every second matters.</h2>
-          <p>ResQ is a mobility and emergency-routing project that explores how route planning, traffic awareness and safety signals can work together. It includes commuter routing, safer travel options and an emergency-services workflow.</p>
+          <h2>Emergency routing, safer travel and traffic intelligence.</h2>
+          <p>ResQ brings together three routing experiences — Normal, SafeRoute and Emergency Services — backed by a web control layer for emergency operations and traffic-aware simulation.</p>
           <div class="feature-list">
-            <div><span>01</span><p><b>Route planning</b><br>Pathfinding designed around road networks and travel constraints.</p></div>
-            <div><span>02</span><p><b>Safer journeys</b><br>A route mode that considers environmental safety signals.</p></div>
-            <div><span>03</span><p><b>Emergency response</b><br>Ambulance routing and an operations dashboard for response coordination.</p></div>
+            <div><span>01</span><p><b>Emergency Services</b><br>Nearest-ambulance assignment, pickup routing, hospital routing and live dispatch state.</p></div>
+            <div><span>02</span><p><b>SafeRoute</b><br>Women-focused routing using road width, activity, streetlights, reports and time-of-day context.</p></div>
+            <div><span>03</span><p><b>Operations dashboard</b><br>CCTV upload workflow, YOLOv8 detection, signal-control simulation and route monitoring.</p></div>
           </div>
         </div>
         <div class="media-stack reveal" data-delay="200">
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/02-dispatch-dashboard.png" alt="ResQ emergency dispatch dashboard"></div><figcaption>Operations dashboard for monitoring dispatch and route information.</figcaption></figure>
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/03-user-home.png" alt="ResQ commuter home screen"></div><figcaption>Commuter home screen for accessing everyday routing and safety features.</figcaption></figure>
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/04-route-options.png" alt="ResQ route options screen"></div><figcaption>Route selection interface presenting alternative journeys.</figcaption></figure>
-          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/05-brand-launch.png" alt="ResQ brand and launch screen"></div><figcaption>ResQ brand and launch screen introducing the emergency mobility platform.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/02-dispatch-dashboard.png" alt="ResQ emergency dispatch dashboard over a Mumbai map"></div><figcaption>Real-time hospital and ambulance dispatch dashboard with traffic context.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/03-ambulance-routing.png" alt="ResQ dashboard showing an ambulance carrying a patient to a hospital"></div><figcaption>Live ambulance state showing pickup-to-hospital routing and patient onboarding.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/04-map-routing.png" alt="ResQ mobile map interface with emergency locations"></div><figcaption>Mobile routing view designed for route discovery and emergency-aware navigation.</figcaption></figure>
+          <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/05-splash-screen.png" alt="ResQ splash screen with the application logo"></div><figcaption>ResQ brand and launch screen introducing the emergency mobility platform.</figcaption></figure>
           <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/06-user-login.png" alt="ResQ user login screen with Normal and Safe Route modes"></div><figcaption>Unified user login with a choice between Normal Route and Safe Route experiences.</figcaption></figure>
           <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/07-emergency-services.png" alt="ResQ emergency services registration screen"></div><figcaption>Verified emergency-services onboarding with hospital ID and driver identity workflow.</figcaption></figure>
           <figure class="media-card"><div class="media-image"><img loading="lazy" decoding="async" src="assets/resq/08-resq-login.png" alt="ResQ account selection screen showing User Login and Emergency Services"></div><figcaption>Role-based entry point separating commuter and emergency-service journeys.</figcaption></figure>
@@ -181,7 +211,7 @@
     </section>
 
     <section class="section shell detail-section" id="miniplay-details">
-      <div class="section-label reveal">04 — MiniPlay deep dive</div>
+      <div class="section-label reveal">05 — MiniPlay deep dive</div>
       <div class="detail-layout reverse">
         <div class="detail-copy reveal" data-delay="100">
           <span class="detail-index">MINIPLAY / 02</span>
@@ -204,18 +234,7 @@
       </div>
     </section>
 
-    <section id="skills" class="section shell">
-      <div class="section-heading reveal">
-        <div class="section-label">05 — Skills & strengths</div>
-        <h2>The tools behind<br>the things I build.</h2>
-      </div>
-      <div class="skills-board">
-        <div class="skill-column reveal"><span class="skill-index">01 / LANGUAGES</span><h3>Programming</h3><div class="skill-stack"><span>C</span><span>C++</span><span>Java</span><span>Python</span><span>SQL</span></div></div>
-        <div class="skill-column reveal" data-delay="80"><span class="skill-index">02 / DEVELOPMENT</span><h3>Web & application</h3><div class="skill-stack"><span>Flutter</span><span>Front-End Development</span><span>Web Development</span><span>Flask</span><span>PHP</span><span>Node.js</span></div></div>
-        <div class="skill-column reveal" data-delay="120"><span class="skill-index">03 / DATA & TOOLS</span><h3>Systems & tooling</h3><div class="skill-stack"><span>MySQL</span><span>DBMS</span><span>Apache</span><span>XAMPP</span><span>phpMyAdmin</span><span>Vercel</span><span>Streamlit</span></div></div>
-        <div class="skill-column reveal" data-delay="160"><span class="skill-index">04 / CORE STRENGTHS</span><h3>How I work</h3><div class="skill-stack"><span>Analytical Skills</span><span>Problem Solving</span><span>Communication</span><span>Teamwork</span><span>Leadership</span><span>Public Speaking</span><span>OOP</span></div></div>
-      </div>
-    </section>
+
 
     <section id="education" class="section shell">
       <div class="section-label reveal">06 — Education</div>
