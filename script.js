@@ -1,133 +1,145 @@
-/* Progressive enhancement: the portfolio stays readable without GSAP or a network. */
+/* Able Thomas portfolio — motion is progressive enhancement and respects reduced-motion settings. */
 (() => {
   'use strict';
-  const $ = (selector) => document.querySelector(selector);
-  const $$ = (selector) => [...document.querySelectorAll(selector)];
+
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const progress = $('#progress');
   const menuToggle = $('#menuToggle');
   const navLinks = $('#navLinks');
-  const themeToggle = $('#themeToggle');
   const motionToggle = $('#motionToggle');
   const backToTop = $('#backToTop');
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const storage = {
     get(key) { try { return localStorage.getItem(key); } catch { return null; } },
-    set(key, value) { try { localStorage.setItem(key, value); } catch { /* Private browsing. */ } }
+    set(key, value) { try { localStorage.setItem(key, value); } catch { /* Storage is optional. */ } }
   };
+
   let paused = storage.get('able-motion') === 'paused';
-  let media;
-  let fallbackObserver;
-  const fallbackAnimations = new Set();
+  let matchMediaAnimations = null;
+  let fallbackObserver = null;
   let scrollFrame = 0;
-  const motionAllowed = () => !paused && !reduced.matches;
+  let sectionObserver = null;
+
+  const motionAllowed = () => !paused && !reducedMotion.matches;
+  const hasGSAP = () => Boolean(window.gsap && window.ScrollTrigger);
 
   function updateScrollUI() {
     scrollFrame = 0;
-    const max = document.documentElement.scrollHeight - innerHeight;
-    progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0) + ')';
-    backToTop.classList.toggle('show', scrollY > 500);
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const position = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+    if (progress) progress.style.transform = `scaleX(${position})`;
+    backToTop?.classList.toggle('show', window.scrollY > 520);
   }
-  addEventListener('scroll', () => {
+
+  window.addEventListener('scroll', () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollUI);
   }, { passive: true });
-  addEventListener('resize', updateScrollUI, { passive: true });
+  window.addEventListener('resize', updateScrollUI, { passive: true });
   updateScrollUI();
 
-  const hasGSAP = () => Boolean(window.gsap && window.ScrollTrigger);
   function setMenu(open) {
+    if (!menuToggle || !navLinks) return;
     navLinks.classList.toggle('open', open);
     menuToggle.setAttribute('aria-expanded', String(open));
     menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
     menuToggle.textContent = open ? '×' : '☰';
-    if (open && motionAllowed() && hasGSAP()) {
-      gsap.fromTo(navLinks.querySelectorAll('a'), { y: -8, opacity: 0 }, {
-        y: 0, opacity: 1, duration: .3, stagger: .04, clearProps: 'transform,opacity', overwrite: true
+
+    if (open && motionAllowed() && hasGSAP() && matchMedia('(max-width: 680px)').matches) {
+      gsap.fromTo($$('a', navLinks), { y: -8, opacity: 0 }, {
+        y: 0, opacity: 1, duration: .28, stagger: .045, ease: 'power2.out', clearProps: 'transform,opacity', overwrite: true
       });
     }
   }
-  menuToggle.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
-  navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+
+  menuToggle?.addEventListener('click', () => setMenu(!navLinks?.classList.contains('open')));
+  $$('.nav-links a').forEach(link => link.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && navLinks.classList.contains('open')) {
+    if (event.key === 'Escape' && navLinks?.classList.contains('open')) {
       setMenu(false);
-      menuToggle.focus();
+      menuToggle?.focus();
     }
   });
   document.addEventListener('click', event => {
     if (!event.target.closest('.nav')) setMenu(false);
   });
-  matchMedia('(min-width: 761px)').addEventListener('change', () => setMenu(false));
+  matchMedia('(min-width: 681px)').addEventListener('change', () => setMenu(false));
 
-  function applyTheme(theme) {
-    const light = theme === 'light';
-    document.body.classList.toggle('light', light);
-    document.documentElement.style.colorScheme = light ? 'light' : 'dark';
-    themeToggle.querySelector('.theme-icon').textContent = light ? '☀' : '☾';
-    themeToggle.querySelector('.theme-label').textContent = light ? 'Light' : 'Dark';
-    themeToggle.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
-    $('meta[name="theme-color"]').content = light ? '#f3f2eb' : '#101211';
-    storage.set('able-theme', theme);
-  }
-  applyTheme(storage.get('able-theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
-  themeToggle.addEventListener('click', () => {
-    applyTheme(document.body.classList.contains('light') ? 'dark' : 'light');
-    if (motionAllowed() && hasGSAP()) gsap.fromTo('.theme-icon', { rotation: -60, scale: .6 }, {
-      rotation: 0, scale: 1, duration: .4, ease: 'back.out(1.5)', clearProps: 'transform', overwrite: true
-    });
+  backToTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: motionAllowed() ? 'smooth' : 'auto' });
   });
-  backToTop.addEventListener('click', () => scrollTo({ top: 0, behavior: motionAllowed() ? 'smooth' : 'instant' }));
 
+  // Keep the project gallery useful if a screenshot file is ever moved or removed.
   $$('img').forEach(img => {
-    const missing = () => {
-      const card = img.closest('.media-card,.project-visual');
-      card?.classList.add('image-missing');
-      // Keep meaningful alternative text visible when an asset is unavailable.
-    };
-    img.addEventListener('error', missing);
-    if (img.complete && !img.naturalWidth) missing();
+    const markMissing = () => img.closest('.media-card, .project-visual, .preview-image')?.classList.add('image-missing');
+    img.addEventListener('error', markMissing);
+    if (img.complete && !img.naturalWidth) markMissing();
   });
 
-  // Track the section nearest the header, including the two project case studies.
-  const navItems = [...navLinks.querySelectorAll('a')];
-  const sectionObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const id = entry.target.id.includes('-details') ? 'projects' : entry.target.id;
-      navItems.forEach(link => {
-        const active = link.hash === '#' + id;
-        link.classList.toggle('active', active);
-        if (active) link.setAttribute('aria-current', 'location');
-        else link.removeAttribute('aria-current');
-      });
-    });
-  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
-  $$('main section[id]').forEach(section => sectionObserver.observe(section));
+  function setupSectionTracking() {
+    sectionObserver?.disconnect();
+    const links = $$('.nav-links a');
+    const sections = $$('main section[id]');
+    if (!('IntersectionObserver' in window) || !sections.length) return;
 
-  const heading = $('.hero h1');
-  // Preserve the heading's text structure; wrap words rather than hundreds of characters.
-  const wrapWords = element => {
-    [...element.childNodes].forEach(node => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const fragment = document.createDocumentFragment();
-        node.textContent.split(/(\s+)/).forEach(word => {
-          if (!word.trim()) fragment.append(document.createTextNode(word));
-          else {
-            const span = document.createElement('span');
-            span.className = 'word';
-            span.textContent = word;
-            fragment.append(span);
-          }
+    sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id.includes('-details') ? 'projects' : entry.target.id;
+        links.forEach(link => {
+          const active = link.hash === `#${id}`;
+          link.classList.toggle('active', active);
+          if (active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
         });
-        node.replaceWith(fragment);
-      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'BR') wrapWords(node);
-    });
-  };
-  wrapWords(heading);
-  $$('.section-heading h2, .section-content .display, .values-title, .contact-inner h2').forEach(title => {
+      });
+    }, { rootMargin: '-16% 0px -68% 0px', threshold: 0 });
+    sections.forEach(section => sectionObserver.observe(section));
+  }
+  setupSectionTracking();
+
+  // Split words into clipping windows for the editorial, line-by-line feel. Text remains semantic.
+  function splitWords(element) {
+    if (!element || element.dataset.wordsSplit === 'true') return;
+    const walk = parent => {
+      [...parent.childNodes].forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.textContent;
+          if (!text || !text.trim()) return;
+          const fragment = document.createDocumentFragment();
+          text.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) {
+              fragment.append(document.createTextNode(part));
+              return;
+            }
+            const clip = document.createElement('span');
+            clip.className = 'word-clip';
+            const word = document.createElement('span');
+            word.className = 'word';
+            word.textContent = part;
+            clip.append(word);
+            fragment.append(clip);
+          });
+          node.replaceWith(fragment);
+        } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'BR' && !node.classList.contains('word-clip')) {
+          walk(node);
+        }
+      });
+    };
+    walk(element);
+    element.dataset.wordsSplit = 'true';
+  }
+
+  splitWords($('.hero h1'));
+  const wordTitleSelector = '.section-heading h2, .section-content .display, .values-title, .contact-inner h2, .detail-copy h2';
+  $$(wordTitleSelector).forEach(title => {
     title.classList.add('scroll-title');
-    wrapWords(title);
+    splitWords(title);
   });
-  $$('main > .section').forEach(section => {
+
+  $$('.section').forEach(section => {
+    if ($('.section-line', section)) return;
     const line = document.createElement('div');
     line.className = 'section-line';
     line.setAttribute('aria-hidden', 'true');
@@ -135,199 +147,321 @@
   });
 
   function setupMotion() {
-    media?.revert();
+    matchMediaAnimations?.revert();
+    matchMediaAnimations = null;
     fallbackObserver?.disconnect();
-    fallbackAnimations.forEach(animation => animation.cancel());
-    fallbackAnimations.clear();
+    fallbackObserver = null;
+
     document.body.classList.toggle('motion-paused', !motionAllowed());
-    motionToggle.setAttribute('aria-pressed', String(!motionAllowed()));
-    motionToggle.disabled = reduced.matches;
-    motionToggle.title = reduced.matches ? 'Motion follows your system reduced-motion preference' : 'Toggle animation effects';
-    motionToggle.setAttribute('aria-label', motionAllowed() ? 'Pause animations' : reduced.matches ? 'Animations disabled by system preference' : 'Enable animations');
-    motionToggle.querySelector('[aria-hidden]').textContent = motionAllowed() ? 'Ⅱ' : '▷';
+    if (motionToggle) {
+      motionToggle.setAttribute('aria-pressed', String(!motionAllowed()));
+      motionToggle.disabled = reducedMotion.matches;
+      motionToggle.title = reducedMotion.matches ? 'Motion is disabled by your system preference' : 'Pause or resume animation effects';
+      motionToggle.setAttribute('aria-label', motionAllowed() ? 'Pause animations' : reducedMotion.matches ? 'Animations disabled by system preference' : 'Resume animations');
+      const icon = $('[aria-hidden="true"]', motionToggle);
+      if (icon) icon.textContent = motionAllowed() ? 'Ⅱ' : '▷';
+    }
     if (!motionAllowed()) return;
 
     if (!hasGSAP()) {
-      // CDN failure should never hide content or disable navigation.
-      fallbackObserver = new IntersectionObserver(entries => entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const animation = entry.target.animate([{ opacity: .3, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'ease-out' });
-        fallbackAnimations.add(animation);
-        animation.onfinish = () => fallbackAnimations.delete(animation);
-        fallbackObserver.unobserve(entry.target);
-      }), { threshold: .08 });
-      $$('.reveal').forEach(el => fallbackObserver.observe(el));
+      // Native reveal fallback only; no content is hidden in the base stylesheet.
+      if ('IntersectionObserver' in window) {
+        fallbackObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.animate([
+              { opacity: .35, transform: 'translateY(14px)' },
+              { opacity: 1, transform: 'translateY(0)' }
+            ], { duration: 520, easing: 'cubic-bezier(.2,.7,.2,1)' });
+            fallbackObserver.unobserve(entry.target);
+          });
+        }, { threshold: .08 });
+        $$('.reveal, .media-card, .skill-column, .achievement-card').forEach(el => fallbackObserver.observe(el));
+      }
       return;
     }
 
     gsap.registerPlugin(ScrollTrigger);
-    media = gsap.matchMedia();
-    media.add({ desktop: '(min-width: 1001px)', fine: '(hover: hover) and (pointer: fine)', mobile: '(max-width: 1000px)', cinematic: '(min-width: 1001px) and (min-height: 800px)' }, context => {
-      const { desktop, fine, cinematic } = context.conditions;
-      const cleanup = [];
-      const duration = desktop ? .85 : .55;
-      const heroIntro = gsap.timeline({ defaults: { ease: 'power3.out', duration } });
-      heroIntro.from('.hero .eyebrow', { y: 14, opacity: 0 })
-        .from('.hero h1 .word', { yPercent: 70, opacity: 0, rotation: 2, stagger: .075 }, '-=.6')
-        .from('.hero-lede', { y: 20, opacity: 0 }, '-=.55')
-        .from('.hero-actions .button', { y: 16, opacity: 0, stagger: .1 }, '-=.55')
-        .from('.hero-meta, .scroll-cue', { opacity: 0, y: 8, stagger: .1 }, '-=.4')
-        .from('.system-card', { y: 35, rotation: -3, opacity: 0, duration: 1.1 }, .25)
-        .from('.system-grid > div', { y: 10, opacity: 0, stagger: .08 }, .7);
+    matchMediaAnimations = gsap.matchMedia();
+    matchMediaAnimations.add({
+      desktop: '(min-width: 1001px)',
+      wide: '(min-width: 1200px) and (min-height: 760px)',
+      finePointer: '(hover: hover) and (pointer: fine)',
+      mobile: '(max-width: 680px)'
+    }, context => {
+      const { desktop, wide, finePointer, mobile } = context.conditions;
+      const cleanups = [];
+      const ease = 'power3.out';
 
-      // Build the pin first so all later triggers account for its scroll spacing.
-      const showcase = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: '.work-intro', start: cinematic ? 'top 82px' : 'top 85%',
-          end: cinematic ? () => '+=' + Math.round(innerHeight * .85) : 'bottom 70%',
-          pin: Boolean(cinematic), scrub: .65, anticipatePin: cinematic ? 1 : 0,
-          invalidateOnRefresh: true
-        }
-      });
-      showcase.fromTo('.work-stage h2', { scale: .86, y: 30 }, { scale: 1, y: 0, duration: .8 }, 0)
-        .fromTo('.preview-resq', { scale: cinematic ? .65 : .88, rotation: -7, xPercent: -9 }, { scale: 1, rotation: 0, xPercent: 0, duration: 1 }, 0)
-        .fromTo('.preview-mini', { scale: cinematic ? .65 : .88, rotation: 7, xPercent: 9 }, { scale: 1, rotation: 0, xPercent: 0, duration: 1 }, 0)
-        .fromTo('.preview-image img', { scale: 1 }, { scale: 1.16, duration: .5 }, .5);
+      // Cinematic hero: staggered words, card entrance, and SVG stems that draw themselves.
+      const heroIntro = gsap.timeline({ defaults: { ease, duration: desktop ? .82 : .62 } });
+      heroIntro
+        .fromTo('.hero .eyebrow', { y: 16, opacity: 0 }, { y: 0, opacity: 1 })
+        .fromTo('.hero h1 .word', { yPercent: 115, opacity: 0, rotation: 1.5 }, {
+          yPercent: 0, opacity: 1, rotation: 0, stagger: .065, duration: desktop ? .96 : .72, clearProps: 'transform,opacity'
+        }, '-=.45')
+        .fromTo('.hero-lede', { y: 18, opacity: 0, filter: 'blur(4px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', duration: .72, clearProps: 'filter,transform' }, '-=.47')
+        .fromTo('.hero-actions .button', { y: 13, opacity: 0 }, { y: 0, opacity: 1, stagger: .1, clearProps: 'transform,opacity' }, '-=.42')
+        .fromTo('.hero-meta, .scroll-cue', { opacity: 0, y: 7 }, { opacity: 1, y: 0, stagger: .1, clearProps: 'transform,opacity' }, '-=.28')
+        .fromTo('.system-card', { y: 30, x: 9, rotation: -5, scale: .97, opacity: 0 }, {
+          y: 0, x: 0, rotation: -1.8, scale: 1, opacity: 1, duration: 1.05, clearProps: 'transform,opacity'
+        }, .12)
+        .fromTo('.system-grid > div', { y: 10, opacity: 0 }, { y: 0, opacity: 1, stagger: .07, clearProps: 'transform,opacity' }, .62)
+        .fromTo('.code-note', { y: 12, rotation: 9, opacity: 0 }, { y: 0, rotation: 4, opacity: 1, duration: .62, clearProps: 'transform,opacity' }, .74);
 
-      // Large containers stay visible; individual cards reveal at their own viewport position.
-      const revealTargets = $$('.reveal').filter(el => !el.closest('.hero') && !el.matches('.media-stack, .timeline, .project-card, .skill-column, .achievement-card, .section-heading, .values-title'));
-      revealTargets.push(...$$('.media-card'));
-      gsap.set(revealTargets, { opacity: 0, y: desktop ? 30 : 18 });
-      context.add('revealBatch', batch => gsap.to(batch, { opacity: 1, y: 0, duration, stagger: .085, ease: 'power3.out', clearProps: 'opacity,transform' }));
-      ScrollTrigger.batch(revealTargets, {
-        start: 'top 94%', once: true, interval: .08, batchMax: desktop ? 4 : 2,
-        onEnter: batch => context.revealBatch(batch)
+      // Draw the botanical accent and gently bring each flower petal into place.
+      $$('.bloom-stem').forEach((path, index) => {
+        try {
+          const length = path.getTotalLength();
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+          heroIntro.to(path, { strokeDashoffset: 0, duration: 1.15, ease: 'power2.out' }, .18 + index * .13);
+        } catch { /* SVG drawing is decorative; continue if unsupported. */ }
       });
-      $$('.feature-list, .skill-stack, .contact-links').forEach(group => {
-        gsap.from(group.children, { y: 12, opacity: 0, stagger: .055, duration: .55, ease: 'power2.out',
-          scrollTrigger: { trigger: group, start: 'top 93%', once: true } });
-      });
-      $$('.mini-stats strong').forEach(el => {
-        const original = el.textContent;
-        if (!/^\d+(\.\d+)?$/.test(original)) return;
-        const value = { n: 0 };
-        const places = original.includes('.') ? original.split('.')[1].length : 0;
-        el.setAttribute('aria-label', original);
-        gsap.to(value, { n: Number(original), duration: 1.4, ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 92%', once: true },
-          onUpdate: () => { el.textContent = value.n.toFixed(places); },
-          onComplete: () => { el.textContent = original; }
+      heroIntro.fromTo('.flower .petal', { scale: .68, opacity: 0, transformOrigin: '50% 50%' }, {
+        scale: 1, opacity: 1, stagger: .025, duration: .62, ease: 'back.out(1.5)', clearProps: 'transform,opacity'
+      }, .6);
+
+      // A short pinned project interlude on desktop; small screens keep natural scrolling.
+      if (wide) {
+        const workTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.work-intro',
+            start: 'top top+=80',
+            end: wide ? '+=88%' : '+=62%',
+            pin: '.work-stage',
+            pinSpacing: true,
+            scrub: .65,
+            anticipatePin: 1,
+            invalidateOnRefresh: true
+          }
         });
-        cleanup.push(() => { el.textContent = original; });
-      });
+        workTimeline
+          .fromTo('.work-stage h2', { y: 42, scale: .88, transformOrigin: 'left center' }, { y: 0, scale: 1, ease: 'none' }, 0)
+          .fromTo('.preview-resq', { xPercent: -9, rotation: -5, scale: .86, y: 22 }, { xPercent: 0, rotation: 0, scale: 1, y: 0, ease: 'none' }, 0)
+          .fromTo('.preview-mini', { xPercent: 9, rotation: 5, scale: .86, y: 22 }, { xPercent: 0, rotation: 0, scale: 1, y: 0, ease: 'none' }, 0)
+          .fromTo('.preview-image img', { scale: 1.12 }, { scale: 1, ease: 'none' }, 0);
+      } else {
+        $$('.work-preview').forEach((preview, index) => gsap.fromTo(preview, {
+          y: 22, opacity: 0, rotation: index === 0 ? -2 : 2
+        }, {
+          y: 0, opacity: 1, rotation: 0, duration: .75, stagger: .08, ease,
+          clearProps: 'transform,opacity', scrollTrigger: { trigger: preview, start: 'top 90%', once: true }
+        }));
+      }
 
-      // Scrubbed motion follows the scrollbar in both directions, without scroll hijacking.
+      // Reveal regular content in viewport-sized batches to avoid a storm of scroll callbacks.
+      const revealTargets = $$('.reveal').filter(el =>
+        !el.closest('.hero') &&
+        !el.matches('.project-card, .section-heading, .values-title, .timeline, .media-stack, .skill-column, .achievement-card, .detail-copy')
+      );
+      if (revealTargets.length) {
+        gsap.set(revealTargets, { opacity: 0, y: desktop ? 22 : 14 });
+        ScrollTrigger.batch(revealTargets, {
+          start: 'top 93%',
+          once: true,
+          interval: .08,
+          batchMax: desktop ? 5 : 3,
+          onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: desktop ? .72 : .52, stagger: .07, ease, clearProps: 'opacity,transform' })
+        });
+      }
+
+      // Scroll-reactive typography and rules create a quieter, editorial storytelling rhythm.
       $$('.scroll-title').forEach(title => {
-        gsap.fromTo(title.querySelectorAll('.word'), { opacity: .22, yPercent: 18 }, {
-          opacity: 1, yPercent: 0, stagger: .09, ease: 'none',
+        const words = $$('.word', title);
+        gsap.fromTo(words, { opacity: .36, yPercent: 17 }, {
+          opacity: 1, yPercent: 0, stagger: .035, ease: 'none',
           scrollTrigger: { trigger: title, start: 'top 88%', end: 'bottom 58%', scrub: .35 }
         });
       });
       $$('.section-line').forEach(line => gsap.fromTo(line, { scaleX: 0 }, {
-        scaleX: 1, ease: 'none', scrollTrigger: { trigger: line.parentElement, start: 'top 92%', end: 'top 45%', scrub: .4 }
+        scaleX: 1, ease: 'none', scrollTrigger: { trigger: line.parentElement, start: 'top 92%', end: 'top 47%', scrub: .45 }
       }));
-      $$('.project-card').forEach(card => {
-        gsap.fromTo(card, { scale: desktop ? .88 : .95, y: desktop ? 65 : 28 }, {
-          scale: 1, y: 0, ease: 'none',
-          scrollTrigger: { trigger: card, start: 'top 96%', end: 'top 18%', scrub: .55 }
-        });
-        gsap.fromTo(card.querySelector('.project-visual img'), { scale: 1, yPercent: -2 }, {
-          scale: desktop ? 1.22 : 1.1, yPercent: 2, ease: 'none',
-          scrollTrigger: { trigger: card.querySelector('.project-visual'), start: 'top 88%', end: 'bottom 12%', scrub: .6 }
-        });
-        gsap.from(card.querySelectorAll('.project-kicker, h3, .project-subtitle, .project-actions'), {
-          x: desktop ? 28 : 14, opacity: 0, duration: .75, stagger: .09, ease: 'power3.out',
-          scrollTrigger: { trigger: card.querySelector('.project-body'), start: 'top 88%', once: true }
-        });
-        gsap.from(card.querySelector('.visual-tag'), { scale: .6, opacity: 0, duration: .6, ease: 'back.out(1.5)',
-          scrollTrigger: { trigger: card, start: 'top 72%', once: true } });
-      });
-      $$('.skill-column').forEach((column, i) => gsap.from(column, {
-        y: 45, rotationX: desktop ? 8 : 0, scale: .95, opacity: 0, duration: .85,
-        delay: (i % 2) * .1, ease: 'power3.out',
-        scrollTrigger: { trigger: column, start: 'top 92%', once: true }
-      }));
-      $$('.achievement-card').forEach((card, i) => gsap.from(card, {
-        y: 50, rotation: desktop ? (i - 1) * 4 : 0, scale: .9, opacity: 0,
-        duration: .85, ease: 'power3.out', delay: desktop ? i * .09 : 0,
-        scrollTrigger: { trigger: card, start: 'top 92%', once: true }
-      }));
-      gsap.fromTo('.timeline-rail', { scaleY: 0 }, { scaleY: 1, ease: 'none',
-        scrollTrigger: { trigger: '.timeline', start: 'top 72%', end: 'bottom 65%', scrub: .4 } });
-      $$('.edu-item').forEach(item => gsap.from(item, {
-        x: -24, opacity: 0, duration: .7, ease: 'power3.out',
-        scrollTrigger: { trigger: item, start: 'top 87%', once: true }
-      }));
-      gsap.fromTo('.contact-inner', { scale: desktop ? .92 : .97, y: 30 }, { scale: 1, y: 0, ease: 'none',
-        scrollTrigger: { trigger: '.contact-section', start: 'top 92%', end: 'top 35%', scrub: .5 } });
-      if (desktop) {
-        $$('.media-card img').forEach(img => gsap.fromTo(img, { scale: 1 }, { scale: 1.06, ease: 'none',
-          scrollTrigger: { trigger: img.parentElement, start: 'top 90%', end: 'bottom 20%', scrub: .5 } }));
-        gsap.fromTo('.hero-copy', { scale: 1, y: 0, opacity: 1 }, { scale: 1.07, y: -48, opacity: .25, ease: 'none',
-          scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 22%', scrub: .6 } });
-      }
 
-      // Only two ambient loops; both stop offscreen and in background tabs.
-      const ticker = gsap.to('.ticker-track', { xPercent: -50, repeat: -1, duration: 38, ease: 'none', paused: true });
-      const orbit = gsap.to('.orbit-outer', { rotation: 360, duration: 65, repeat: -1, ease: 'none', paused: true });
+      // Project cards settle into the layout while their screenshots reveal through a mask.
+      $$('.project-card').forEach((card, index) => {
+        gsap.fromTo(card, { y: desktop ? 40 : 18, scale: desktop ? .965 : .99 }, {
+          y: 0, scale: 1, ease: 'none',
+          scrollTrigger: { trigger: card, start: 'top 92%', end: 'top 28%', scrub: .48 }
+        });
+        const image = $('.project-visual img', card);
+        if (image) {
+          gsap.fromTo(image, { clipPath: 'inset(0 0 100% 0 round 10px)', scale: 1.07 }, {
+            clipPath: 'inset(0 0 0% 0 round 0px)', scale: 1, duration: 1.05, ease: 'power2.out',
+            scrollTrigger: { trigger: image, start: 'top 82%', once: true }
+          });
+          gsap.to(image, { yPercent: desktop ? 3 : 1, ease: 'none', scrollTrigger: {
+            trigger: $('.project-visual', card), start: 'top bottom', end: 'bottom top', scrub: .6
+          }});
+        }
+        const bodyTargets = $$('.project-number, .project-kicker, h3, .project-subtitle, .tag-row, .project-actions', card);
+        gsap.fromTo(bodyTargets, { x: desktop ? 20 : 8, opacity: 0 }, {
+          x: 0, opacity: 1, duration: .62, stagger: .075, ease,
+          clearProps: 'transform,opacity', scrollTrigger: { trigger: $('.project-body', card), start: 'top 84%', once: true }
+        });
+        gsap.fromTo($('.visual-tag', card), { scale: .75, opacity: 0, rotation: index % 2 ? 3 : -3 }, {
+          scale: 1, opacity: 1, rotation: 0, duration: .55, ease: 'back.out(1.5)',
+          clearProps: 'transform,opacity', scrollTrigger: { trigger: card, start: 'top 74%', once: true }
+        });
+      });
+
+      // Case-study screenshots arrive in a staggered grid; images drift only while in the viewport.
+      $$('.media-card').forEach((card, index) => {
+        gsap.fromTo(card, { y: desktop ? 28 : 14, opacity: 0, scale: .985 }, {
+          y: 0, opacity: 1, scale: 1, duration: .72, delay: (index % 2) * .04, ease,
+          clearProps: 'transform,opacity', scrollTrigger: { trigger: card, start: 'top 92%', once: true }
+        });
+        const image = $('img', card);
+        if (image) gsap.fromTo(image, { scale: 1.04 }, {
+          scale: 1, duration: .9, ease: 'power2.out', clearProps: 'transform',
+          scrollTrigger: { trigger: card, start: 'top 90%', once: true }
+        });
+      });
+
+      $$('.feature-list > div').forEach(listItem => gsap.fromTo(listItem, { x: 12, opacity: 0 }, {
+        x: 0, opacity: 1, duration: .52, ease, clearProps: 'transform,opacity',
+        scrollTrigger: { trigger: listItem, start: 'top 92%', once: true }
+      }));
+
+      // Skill tiles use a restrained 3D entrance; their tags cascade in short, readable groups.
+      $$('.skill-column').forEach((column, index) => {
+        gsap.fromTo(column, { y: 30, opacity: 0, rotationX: desktop ? 5 : 0, scale: .98 }, {
+          y: 0, opacity: 1, rotationX: 0, scale: 1, duration: .78, delay: desktop ? (index % 2) * .07 : 0,
+          ease, clearProps: 'transform,opacity', scrollTrigger: { trigger: column, start: 'top 90%', once: true }
+        });
+        gsap.fromTo($$('.skill-stack span', column), { y: 9, opacity: 0 }, {
+          y: 0, opacity: 1, stagger: .035, duration: .42, ease, clearProps: 'transform,opacity',
+          scrollTrigger: { trigger: column, start: 'top 83%', once: true }
+        });
+      });
+
+      gsap.fromTo('.timeline-rail', { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: {
+        trigger: '.timeline', start: 'top 76%', end: 'bottom 70%', scrub: .45
+      }});
+      $$('.edu-item').forEach(item => gsap.fromTo(item, { x: -18, opacity: 0 }, {
+        x: 0, opacity: 1, duration: .7, ease, clearProps: 'transform,opacity',
+        scrollTrigger: { trigger: item, start: 'top 88%', once: true }
+      }));
+      $$('.achievement-card').forEach((card, index) => gsap.fromTo(card, {
+        y: 30, rotation: desktop ? (index - 1) * 1.5 : 0, opacity: 0, scale: .975
+      }, {
+        y: 0, rotation: 0, opacity: 1, scale: 1, duration: .78, delay: desktop ? index * .055 : 0,
+        ease, clearProps: 'transform,opacity', scrollTrigger: { trigger: card, start: 'top 89%', once: true }
+      }));
+
+      gsap.fromTo('.contact-inner', { y: 24, scale: desktop ? .975 : .99, opacity: .6 }, {
+        y: 0, scale: 1, opacity: 1, ease: 'none', scrollTrigger: {
+          trigger: '.contact-section', start: 'top 94%', end: 'top 37%', scrub: .55
+        }
+      });
+      gsap.fromTo('.contact-links a', { x: 18, opacity: 0 }, {
+        x: 0, opacity: 1, stagger: .085, duration: .58, ease, clearProps: 'transform,opacity',
+        scrollTrigger: { trigger: '.contact-links', start: 'top 85%', once: true }
+      });
+
+      // Two lightweight loops only, and only while their content is visible.
+      const ticker = gsap.to('.ticker-track', { xPercent: -50, repeat: -1, duration: 40, ease: 'none', paused: true });
+      const orbit = gsap.to('.orbit-outer', { rotation: 360, duration: 90, repeat: -1, ease: 'none', paused: true });
+      const bloom = gsap.to('.flower-one', { rotation: 7, transformOrigin: '50% 50%', duration: 4.5, yoyo: true, repeat: -1, ease: 'sine.inOut', paused: true });
       let tickerVisible = false;
       let heroVisible = false;
       const syncLoops = () => {
         ticker.paused(document.hidden || !tickerVisible);
         orbit.paused(document.hidden || !heroVisible || !desktop);
+        bloom.paused(document.hidden || !heroVisible);
       };
-      const loopObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.target.matches('.ticker')) tickerVisible = entry.isIntersecting;
-          else heroVisible = entry.isIntersecting;
+      let loopObserver = null;
+      if ('IntersectionObserver' in window) {
+        loopObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.target.matches('.ticker')) tickerVisible = entry.isIntersecting;
+            if (entry.target.matches('.hero')) heroVisible = entry.isIntersecting;
+          });
+          syncLoops();
         });
-        syncLoops();
-      });
-      loopObserver.observe($('.ticker'));
-      loopObserver.observe($('.hero'));
-      document.addEventListener('visibilitychange', syncLoops);
-      cleanup.push(() => { loopObserver.disconnect(); document.removeEventListener('visibilitychange', syncLoops); });
-
-      if (desktop) {
-        gsap.to('.hero-art', { y: -32, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .6 } });
-
+        const tickerEl = $('.ticker');
+        const heroEl = $('.hero');
+        if (tickerEl) loopObserver.observe(tickerEl);
+        if (heroEl) loopObserver.observe(heroEl);
       }
-      if (fine) {
-        const listen = (el, type, fn) => { el.addEventListener(type, fn); cleanup.push(() => el.removeEventListener(type, fn)); };
-        // Reuse tweens instead of allocating a new animation for each pointer event.
+      document.addEventListener('visibilitychange', syncLoops);
+      cleanups.push(() => {
+        loopObserver?.disconnect();
+        document.removeEventListener('visibilitychange', syncLoops);
+      });
+
+      // Gentle layered parallax adds depth to the hero and its illustration without scroll hijacking.
+      if (desktop) {
+        gsap.to('.hero-art', { y: -24, ease: 'none', scrollTrigger: {
+          trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .65
+        }});
+        gsap.to('.bloom-illustration', { y: 34, x: 7, ease: 'none', scrollTrigger: {
+          trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .7
+        }});
+      }
+
+      // Pointer-only card tilt and magnetic buttons; no pointer listeners on touch devices.
+      if (finePointer && !mobile) {
+        $$('.media-card').forEach(card => {
+          const rotateX = gsap.quickTo(card, 'rotationX', { duration: .32, ease: 'power2.out' });
+          const rotateY = gsap.quickTo(card, 'rotationY', { duration: .32, ease: 'power2.out' });
+          const z = gsap.quickTo(card, 'z', { duration: .32, ease: 'power2.out' });
+          const onMove = event => {
+            const rect = card.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width - .5;
+            const py = (event.clientY - rect.top) / rect.height - .5;
+            rotateX(-py * 3.2);
+            rotateY(px * 3.2);
+            z(4);
+          };
+          const reset = () => { rotateX(0); rotateY(0); z(0); };
+          card.addEventListener('pointermove', onMove);
+          card.addEventListener('pointerleave', reset);
+          cleanups.push(() => {
+            card.removeEventListener('pointermove', onMove);
+            card.removeEventListener('pointerleave', reset);
+          });
+        });
         $$('.button').forEach(button => {
           const x = gsap.quickTo(button, 'x', { duration: .35, ease: 'power3.out' });
           const y = gsap.quickTo(button, 'y', { duration: .35, ease: 'power3.out' });
-          let bounds;
-          listen(button, 'pointerenter', () => { bounds = button.getBoundingClientRect(); });
-          listen(button, 'pointermove', event => {
+          let bounds = null;
+          const onEnter = () => { bounds = button.getBoundingClientRect(); };
+          const onMove = event => {
             if (!bounds) return;
-            x((event.clientX - bounds.left - bounds.width / 2) * .12);
-            y((event.clientY - bounds.top - bounds.height / 2) * .18);
+            x((event.clientX - bounds.left - bounds.width / 2) * .1);
+            y((event.clientY - bounds.top - bounds.height / 2) * .13);
+          };
+          const reset = () => { x(0); y(0); bounds = null; };
+          button.addEventListener('pointerenter', onEnter);
+          button.addEventListener('pointermove', onMove);
+          button.addEventListener('pointerleave', reset);
+          cleanups.push(() => {
+            button.removeEventListener('pointerenter', onEnter);
+            button.removeEventListener('pointermove', onMove);
+            button.removeEventListener('pointerleave', reset);
           });
-          listen(button, 'pointerleave', () => { x(0); y(0); bounds = null; });
-        });
-        $$('.contact-links a').forEach(link => {
-          const x = gsap.quickTo(link.lastElementChild, 'x', { duration: .3 });
-          const y = gsap.quickTo(link.lastElementChild, 'y', { duration: .3 });
-          listen(link, 'pointerenter', () => { x(5); y(-5); });
-          listen(link, 'pointerleave', () => { x(0); y(0); });
-          listen(link, 'focus', () => { x(5); y(-5); });
-          listen(link, 'blur', () => { x(0); y(0); });
         });
       }
-      return () => cleanup.forEach(fn => fn());
+
+      return () => cleanups.forEach(cleanup => cleanup());
     });
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+    if (document.fonts?.ready) document.fonts.ready.then(() => {
+      if (hasGSAP() && motionAllowed()) ScrollTrigger.refresh();
+    });
   }
-  motionToggle.addEventListener('click', () => {
-    if (reduced.matches) return;
+
+  motionToggle?.addEventListener('click', () => {
+    if (reducedMotion.matches) return;
     paused = !paused;
     storage.set('able-motion', paused ? 'paused' : 'enabled');
     setupMotion();
   });
-  reduced.addEventListener('change', setupMotion);
+  reducedMotion.addEventListener('change', setupMotion);
   setupMotion();
-  addEventListener('load', () => { updateScrollUI(); if (hasGSAP()) ScrollTrigger.refresh(); }, { once: true });
+
+  window.addEventListener('load', () => {
+    updateScrollUI();
+    if (hasGSAP() && motionAllowed()) ScrollTrigger.refresh();
+  }, { once: true });
 })();
