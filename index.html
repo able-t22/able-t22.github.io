@@ -4,20 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Able Thomas — Computer Science student at VIT Vellore, software developer building ResQ and MiniPlay.">
-  <meta name="theme-color" content="#f8f6ef">
+  <meta name="theme-color" content="#101110">
   <title>Able Thomas — Developer Portfolio</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cinematic.css">
 </head>
 <body>
   <div class="grain-overlay" aria-hidden="true"></div>
   <div class="custom-cursor custom-cursor--dot" id="cursorDot" aria-hidden="true"></div>
   <div class="custom-cursor custom-cursor--ring" id="cursorRing" aria-hidden="true"><span id="cursorLabel">MOVE</span></div>
   <div class="page-wipe" id="pageWipe" aria-hidden="true">
-    <span class="page-wipe__panel"></span><span class="page-wipe__panel"></span>
-    <div class="page-wipe__identity"><p class="page-wipe__name">Able Thomas</p></div>
+    <div class="shutter shutter--top"></div><div class="shutter shutter--bottom"></div>
+    <div class="page-wipe__identity"><span class="transition-meta">ABLE THOMAS / PORTFOLIO</span><div class="transition-title-mask"><p class="page-wipe__name">Selected work</p></div><div class="transition-rule"></div><span class="transition-index">CHAPTER 02</span></div>
+    <span class="transition-corner">A NEW PERSPECTIVE ↗</span>
   </div>
   <div class="progress" id="progress" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -38,6 +41,7 @@
         <a href="#contact">Contact</a>
       </div>
       <div class="header-actions">
+        <button class="motion-toggle" id="motionToggle" type="button" aria-label="Pause animations" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
         <a class="nav-resume" href="assets/able-thomas-resume.pdf" download="Able-Thomas-Resume.pdf">Resume <span aria-hidden="true">↓</span></a>
         <a class="nav-cta" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </div>
@@ -47,8 +51,8 @@
   <main id="main" tabindex="-1">
     <section class="hero shell" aria-label="Introduction">
       <div class="hero-copy reveal">
-        <div class="eyebrow"><span class="status-dot"></span> CSE CORE DEVELOPER</div>
-        <h1>Hi, I’m<br>Able <span>Thomas</span></h1>
+        <div class="eyebrow"><span class="status-dot"></span> DEVELOPER BY LOGIC. CREATIVE BY INSTINCT.</div>
+        <h1>Able<br><em>Thomas.</em></h1>
         <p class="hero-lede">A computer science student at VIT Vellore who loves building meaningful products, solving real-world problems and creating thoughtful digital experiences.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="#projects">View my work <span aria-hidden="true">→</span></a>
@@ -62,7 +66,7 @@
         <div class="hero-meta"><span>Vellore, India</span><span class="dot-separator">•</span><span>Passout 2029</span></div>
       </div>
       <div class="hero-art reveal" data-delay="150" aria-label="Portrait of Able Thomas">
-        <span class="hero-art-note hero-art-note--left">Hover<br>for magic <span aria-hidden="true">↘</span></span>
+        <span class="hero-art-note hero-art-note--left">A different<br>perspective <span aria-hidden="true">↘</span></span>
         <span class="hero-art-index" aria-hidden="true">PORTFOLIO / 2026</span>
         <div class="portrait-frame" id="heroPortraitFrame" data-cursor-label="VIEW">
           <div class="portrait-frame__backplate" aria-hidden="true"></div>
@@ -79,9 +83,18 @@
           <strong>9.74</strong><span>CGPA</span>
           <i aria-hidden="true"></i><small>PASSOUT 2029</small>
         </div>
-        <div class="hero-art-note hero-art-note--right" aria-hidden="true">BUILD<br>LEARN<br>CREATE<br>IMPACT</div>
+        <div class="hero-art-note hero-art-note--right" aria-hidden="true">CODE<br>CRAFT<br>CURIOSITY</div>
       </div>
       <a class="scroll-cue" href="#skills"><span>SCROLL TO EXPLORE</span><span aria-hidden="true">↓</span></a>
+    </section>
+
+<section class="motion-film" aria-label="Creative development showcase">
+      <div class="film-stage shell">
+        <div class="film-top"><span>THE INTERSECTION OF CODE & CRAFT</span><span class="film-counter">EXPERIMENT / 001</span></div>
+        <div class="film-orbit" aria-hidden="true"><div class="orbit-axis orbit-axis--one"></div><div class="orbit-axis orbit-axis--two"></div><div class="orbit-axis orbit-axis--three"></div><div class="orbit-core"></div><span class="orbit-cross">+</span></div>
+        <div class="film-copy"><p class="film-kicker">THOUGHTFULLY ENGINEERED.</p><h2>Built to work.<br><em>Made to feel.</em></h2><p class="film-description">Logic gives it purpose. Motion gives it character.<br>I care about the details that make both come alive.</p></div>
+        <div class="film-bottom"><span>SCROLL TO DEVELOP THE IDEA ↓</span><div class="film-meter"><i></i></div><span>DESIGN → DEVELOP → REFINE</span></div>
+      </div>
     </section>
 
 <section id="skills" class="section shell">
@@ -283,8 +296,8 @@
   <footer class="footer shell"><span>© 2026 Able Thomas</span><div class="footer-actions"><a href="assets/able-thomas-resume.pdf" download="Able-Thomas-Resume.pdf">Download resume ↓</a><a href="#top">Back to top ↑</a></div></footer>
   <button id="backToTop" class="back-top" type="button" aria-label="Back to top">↑</button>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script defer src="assets/vendor/gsap.min.js"></script>
+  <script defer src="assets/vendor/ScrollTrigger.min.js"></script>
   <script defer src="script.js"></script>
 </body>
 </html>
