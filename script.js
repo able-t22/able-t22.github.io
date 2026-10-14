@@ -11,12 +11,9 @@
   const backToTop = $('#backToTop');
   const pageWipe = $('#pageWipe');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const storage = {
-    get(key) { try { return localStorage.getItem(key); } catch { return null; } },
-    set(key, value) { try { localStorage.setItem(key, value); } catch { /* Storage is optional. */ } }
-  };
 
-  let paused = storage.get('able-motion') === 'paused';
+  // Start each visit with motion enabled; the visible pause control applies to this visit.
+  let paused = false;
   let matchMediaAnimations = null;
   let fallbackObserver = null;
   let scrollFrame = 0;
@@ -221,17 +218,6 @@
       if (desktop) {
         gsap.to('.hero-copy', { y: -85, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .8 } });
         gsap.to('.hero-art', { y: 65, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
-        const film = gsap.timeline({ scrollTrigger: { trigger: '.motion-film', start: 'top 86px', end: '+=1200', pin: '.film-stage', scrub: 1, anticipatePin: 1 }, defaults: { ease: 'none' } });
-        film.fromTo('.film-orbit', { scale: .7, rotation: -35, xPercent: 15 }, { scale: 1.12, rotation: 30, xPercent: -4, duration: 2 }, 0)
-          .to('.orbit-axis--one', { rotationX: 210, rotationY: 60, rotationZ: 120, duration: 2 }, 0)
-          .to('.orbit-axis--two', { rotationY: -140, rotationX: 60, rotationZ: -90, duration: 2 }, 0)
-          .to('.orbit-axis--three', { rotationY: 200, rotationZ: 150, duration: 2 }, 0)
-          .fromTo('.film-copy', { x: -35, opacity: .35 }, { x: 0, opacity: 1, duration: .6 }, 0)
-          .to('.film-copy', { y: -30, duration: 1.4 }, .6)
-          .to('.film-meter i', { scaleX: 1, duration: 2 }, 0);
-      } else {
-        gsap.to('.film-orbit', { rotation: 65, scale: 1.1, ease: 'none', scrollTrigger: { trigger: '.motion-film', start: 'top bottom', end: 'bottom top', scrub: 1 } });
-        gsap.to('.film-meter i', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: '.motion-film', start: 'top 75%', end: 'bottom 50%', scrub: .5 } });
       }
       $$('.project-card').forEach(card => {
         const visual = $('.project-visual', card);
@@ -282,7 +268,7 @@
     const corner = $('.transition-corner', pageWipe);
     const chapters = { top: ['Introduction', '01'], about: ['Behind the craft', '04'], projects: ['Selected work', '03'], skills: ['The toolkit', '02'], education: ['Always learning', '05'], contact: ['Let’s create.', '06'], 'resq-details': ['ResQ', '03.1'], 'miniplay-details': ['MiniPlay', '03.2'] };
     document.addEventListener('click', event => {
-      const link = event.target.closest('.nav-links a[href^="#"], .brand[href^="#"], .nav-cta[href^="#"], .hero-actions a[href^="#"], .project-actions a[href^="#"]');
+      const link = event.target.closest('.nav-links a[href^="#"]');
       if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const hash = link.getAttribute('href');
       let target;
@@ -291,7 +277,7 @@
       event.preventDefault();
       if (isNavigating) return;
       const destination = () => target.id === 'top' ? 0 : Math.max(0, window.scrollY + target.getBoundingClientRect().top - $('.site-header').offsetHeight - 16);
-      if (Math.abs(window.scrollY - destination()) < 30) return;
+      // Navbar clicks always play the transition, including the current section.
       isNavigating = true;
       document.body.classList.add('is-transitioning');
       const chapter = chapters[target.id] || ['A new perspective', '01'];
@@ -436,7 +422,6 @@
   motionToggle?.addEventListener('click', () => {
     if (reducedMotion.matches) return;
     paused = !paused;
-    storage.set('able-motion', paused ? 'paused' : 'enabled');
     setupMotion();
     setupHeroCursor();
   });
