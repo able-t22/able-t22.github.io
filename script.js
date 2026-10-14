@@ -281,7 +281,7 @@
       isNavigating = true;
       document.body.classList.add('is-transitioning');
       const chapter = chapters[target.id] || ['A new perspective', '01'];
-      name.textContent = chapter[0]; index.textContent = 'CHAPTER / ' + chapter[1];
+      index.textContent = chapter[1] + ' / ' + chapter[0].toUpperCase();
       setMenu(false, true);
       const navigate = () => {
         window.scrollTo({ top: destination(), behavior: 'instant' });
@@ -299,19 +299,20 @@
       gsap.set(pageWipe, { autoAlpha: 1 });
       gsap.set(shutters, { y: 0, yPercent: i => i === 0 ? -101 : 101 });
       gsap.set(identity, { autoAlpha: 1 });
-      gsap.set(name, { yPercent: 115 });
-      gsap.set('.transition-meta, .transition-index', { opacity: 0 });
+      gsap.set(name, { yPercent: 115, opacity: 0 });
+      gsap.set('.transition-monogram, .transition-meta, .transition-index', { opacity: 0, y: 8 });
       gsap.set('.transition-rule', { scaleX: 0 });
       navigationTimeline = gsap.timeline({ onComplete: finishNavigation, defaults: { ease: 'power4.inOut' } })
         .to(shutters, { yPercent: 0, duration: .65, stagger: .025 }, 0)
-        .to(name, { yPercent: 0, duration: .75, ease: 'power4.out' }, .4)
-        .to('.transition-meta, .transition-index', { opacity: 1, duration: .3, stagger: .08 }, .55)
-        .to('.transition-rule', { scaleX: 1, duration: .55 }, .55)
-        .to(corner, { opacity: 1, duration: .3 }, .55)
-        .add(() => { navigate(); relocated = true; }, .72)
-        .to(identity, { autoAlpha: 0, duration: .25 }, 1.12)
-        .to(corner, { opacity: 0, duration: .2 }, 1.12)
-        .to(shutters, { yPercent: i => i === 0 ? -101 : 101, duration: .8, stagger: .035 }, 1.22);
+        .to(name, { yPercent: 0, opacity: 1, duration: .8, ease: 'power4.out' }, .58)
+        .to('.transition-monogram, .transition-meta, .transition-index', { opacity: 1, y: 0, duration: .45, stagger: .07, ease: 'power2.out' }, .68)
+        .to('.transition-rule', { scaleX: 1, duration: .65 }, .78)
+        .to(corner, { opacity: 1, duration: .4 }, .78)
+        .add(() => { navigate(); relocated = true; }, .8)
+        .to(name, { yPercent: -105, opacity: 0, duration: .45, ease: 'power3.in' }, 1.65)
+        .to(identity, { autoAlpha: 0, duration: .3 }, 1.77)
+        .to(corner, { opacity: 0, duration: .25 }, 1.77)
+        .to(shutters, { yPercent: i => i === 0 ? -101 : 101, duration: .8, stagger: .025 }, 1.94);
     });
     const cancel = () => { if (navigationTimeline) { navigationTimeline.kill(); finishNavigation?.(); } };
     reducedMotion.addEventListener('change', cancel);

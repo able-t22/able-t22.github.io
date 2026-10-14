@@ -68,3 +68,16 @@ body.is-transitioning .page-wipe { pointer-events:auto; }
  .transition-meta,.transition-index { font-size:9px; } .transition-corner { right:20px; bottom:24px; font-size:8px; }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } .page-wipe { display:none !important; } }
+
+/* Personal identity remains the focus throughout the full-screen transition. */
+.shutter,.shutter--bottom { background:#f0eee7; }
+.shutter--top { border-bottom:0; }
+.page-wipe__identity { gap:18px; }
+.transition-monogram { display:grid; place-items:center; width:42px; height:42px; border:1px solid #8a9c8080; border-radius:50%; color:#315d43; font:500 11px 'DM Mono',monospace; letter-spacing:-.04em; }
+.transition-meta { font-size:9px; letter-spacing:.24em; }
+.page-wipe__name { font-style:normal; font-size:clamp(64px,10.5vw,156px); letter-spacing:-.055em; line-height:1.15; white-space:nowrap; }
+.page-wipe__name em { font-weight:400; color:#54734e; }
+.transition-title-mask { max-width:100%; padding:0 18px 14px; }
+.transition-rule { width:110px; }
+.transition-index { font-size:9px; letter-spacing:.17em; }
+@media(max-width:680px) { .page-wipe__name { font-size:clamp(46px,11.5vw,76px); } .page-wipe__identity { gap:16px; } .transition-monogram { width:36px; height:36px; } .transition-meta { font-size:8px; } }
